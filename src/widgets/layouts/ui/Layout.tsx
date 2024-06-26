@@ -1,13 +1,14 @@
 import { ReactNode } from 'react'
+import { Outlet } from 'react-router-dom'
 import { HrCard } from '@/entities/hrCard'
 import { Button } from '@/shared/ui/button'
 import { Logo } from '@/shared/ui/logo'
 import { Navigation } from './Navigation'
 
-export const Layout = ({ children }: { children: ReactNode }) => {
+export const Layout = () => {
     return (
-        <div className='flex h-screen w-full'>
-            <div className='bg-background border-r border-muted flex flex-col gap-4 p-4 w-60'>
+        <div className='flex w-full'>
+            <div className='h-screen bg-background border-r border-muted flex flex-col gap-4 p-4 w-60'>
                 <Logo />
                 <Navigation />
 
@@ -18,7 +19,9 @@ export const Layout = ({ children }: { children: ReactNode }) => {
                     </Button>
                 </div>
             </div>
-            <div className='flex-1 flex flex-col'>{children}</div>
+            <div className='flex-1 flex flex-col h-screen'>
+                <Outlet />
+            </div>
         </div>
     )
 }
