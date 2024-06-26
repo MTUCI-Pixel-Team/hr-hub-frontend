@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { CreatePeople } from '@/widgets/createPeople'
 import { FilteringByPeople } from '@/widgets/filteringByPeople'
-import { FilterSortLayout } from '@/features/filterSort'
+import { Sort } from '@/features/filterSort'
 import { Search } from '@/features/search'
 import { DefaultCard } from '@/entities/defaultCard'
 
@@ -19,7 +19,7 @@ export const PeoplesPage = () => {
         <>
             <header className='p-6 bg-background border-b border-muted flex items-center gap-4 px-6 h-16'>
                 <Search placeholder='Поиск людей...' />
-                <FilterSortLayout />
+                <Sort />
                 <CreatePeople renderFilter={<FilteringByPeople />} />
             </header>
             <main className='p-6 overflow-y-auto'>

@@ -6,7 +6,6 @@ import {
     DropdownMenuContent,
     DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu'
-// import { People } from './People'
 
 export const Filter = ({ render }: { render: ReactNode }) => {
     return (
@@ -17,10 +16,7 @@ export const Filter = ({ render }: { render: ReactNode }) => {
                     <span className='sr-only'>Filter</span>
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align='end'>
-                {/* <People /> */}
-                {render}
-            </DropdownMenuContent>
+            <DropdownMenuContent align='end'>{render}</DropdownMenuContent>
         </DropdownMenu>
     )
 }
