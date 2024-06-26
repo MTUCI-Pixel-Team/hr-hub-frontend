@@ -12,6 +12,6 @@ RUN npm run build
 
 RUN npm install -g serve
 
-EXPOSE 6666
+EXPOSE 3000
 
-CMD serve -s dist -l 6666
+CMD serve -s dist -l 3000
