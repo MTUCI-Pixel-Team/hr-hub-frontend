@@ -14,4 +14,4 @@ RUN npm install -g serve
 
 EXPOSE 6666
 
-CMD ["serve", "-s", "dist", "-l", "6666"]
+CMD serve -s dist -l 6666
