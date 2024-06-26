@@ -1,3 +1,3 @@
-import { Peoples } from './Peoples.tsx'
+import { PeoplesPage } from './Peoples'
 
-export { Peoples }
+export { PeoplesPage }

@@ -1,4 +1,3 @@
-import { ReactNode } from 'react'
 import { Outlet } from 'react-router-dom'
 import { HrCard } from '@/entities/hrCard'
 import { Button } from '@/shared/ui/button'
