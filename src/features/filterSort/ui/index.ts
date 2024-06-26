@@ -1,3 +1,5 @@
+import { Filter } from './Filter'
 import { FilterSortLayout } from './Layout'
+import { Sort } from './Sort'
 
-export { FilterSortLayout }
+export { FilterSortLayout, Filter, Sort }

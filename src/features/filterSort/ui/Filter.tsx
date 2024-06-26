@@ -1,13 +1,14 @@
 import { FilterIcon } from 'lucide-react'
+import { ReactNode } from 'react'
 import { Button } from '@/shared/ui/button'
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu'
-import { People } from './People'
+// import { People } from './People'
 
-export const Filter = () => {
+export const Filter = ({ render }: { render: ReactNode }) => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -17,7 +18,8 @@ export const Filter = () => {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align='end'>
-                <People />
+                {/* <People /> */}
+                {render}
             </DropdownMenuContent>
         </DropdownMenu>
     )

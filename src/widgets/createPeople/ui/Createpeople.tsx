@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 import { Button } from '@/shared/ui/button'
 import {
     Dialog,
@@ -10,7 +11,7 @@ import {
 import { Input } from '@/shared/ui/input'
 import { Label } from '@/shared/ui/label'
 
-export const CreatePeople = () => {
+export const CreatePeople = ({ renderFilter }: { renderFilter: ReactNode }) => {
     return (
         <Dialog>
             <DialogTrigger>
@@ -21,8 +22,8 @@ export const CreatePeople = () => {
                     Создать пользователя
                 </Button>
             </DialogTrigger>
-            <DialogContent>
-                <DialogHeader>
+            <DialogContent className='overflow-auto'>
+                <DialogHeader className='overflow-auto'>
                     <DialogTitle>Создание нового пользователя</DialogTitle>
                     <DialogDescription>
                         Введите данные нового пользователя и добавьте его
@@ -52,11 +53,19 @@ export const CreatePeople = () => {
                             className='input'
                         />
                     </div>
+                    <div className='flex flex-col gap-2 '>
+                        <Label className='text-left'>
+                            Логины пользователей:
+                        </Label>
+                        {renderFilter}
+                    </div>
                     <div className='flex gap-3'>
                         <Button type='submit' className='w-32'>
                             Создать
                         </Button>
-                        <Button variant='outline'>Отмена</Button>
+                        <Button type='button' variant='outline'>
+                            Отмена
+                        </Button>
                     </div>
                 </form>
             </DialogContent>

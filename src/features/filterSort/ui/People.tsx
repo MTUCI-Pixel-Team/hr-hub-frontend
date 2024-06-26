@@ -62,15 +62,6 @@ export const People = () => {
                         className='mb-2'
                         placeholder='Поиск пользователей...'
                     />
-                    {/* <DropdownMenuItem>
-                        <div className='flex items-center gap-3'>
-                            <Avatar className='w-10 h-10 border'>
-                                <AvatarImage src='/placeholder-user.jpg' />
-                                <AvatarFallback>JD</AvatarFallback>
-                            </Avatar>
-                            <h2 className='font-medium'>Сергей</h2>
-                        </div>
-                    </DropdownMenuItem> */}
                     <div className='flex flex-col gap-1'>
                         {data.map((person) => {
                             const isSelected = pickedPeople.includes(person)
