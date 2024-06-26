@@ -1,10 +1,8 @@
-import { FilterIcon, UsersIcon } from 'lucide-react'
-import React from 'react'
+import { FilterIcon } from 'lucide-react'
 import { Button } from '@/shared/ui/button'
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu'
 import { People } from './People'

@@ -1,4 +1,3 @@
-import React from 'react'
 import { FilterSortLayout } from '@/features/filterSort'
 import { Search } from '@/features/search'
 

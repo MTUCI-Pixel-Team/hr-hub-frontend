@@ -1,4 +1,3 @@
-import React from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar'
 
 export const MessageCard = () => {

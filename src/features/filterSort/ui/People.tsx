@@ -1,20 +1,14 @@
 import classNames from 'classnames'
-import { CircleX, Mail, UserPlus } from 'lucide-react'
+import { CircleX, UserPlus } from 'lucide-react'
 import { useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar'
 import { Button } from '@/shared/ui/button'
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
     DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
     DropdownMenuSub,
     DropdownMenuSubTrigger,
     DropdownMenuPortal,
     DropdownMenuSubContent,
-    DropdownMenuGroup,
 } from '@/shared/ui/dropdown-menu'
 import { Input } from '@/shared/ui/input'
 

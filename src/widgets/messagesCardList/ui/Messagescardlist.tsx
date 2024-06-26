@@ -1,4 +1,3 @@
-import React from 'react'
 import { MessageCard } from '@/entities/messageCard'
 
 export const MessagesCardList = () => {

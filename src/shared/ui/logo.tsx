@@ -1,5 +1,4 @@
 import { MailIcon } from 'lucide-react'
-import React from 'react'
 
 export const Logo = () => {
     return (
