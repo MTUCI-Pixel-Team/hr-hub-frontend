@@ -126,7 +126,9 @@ export const RegisterForm = () => {
                                 )
                             }}
                         />
-                        <Button type='submit' className='w-full'>
+                        <Button
+                            type='submit'
+                            className='w-full transition-all duration-300 hover:scale-[102%]'>
                             Зарегистрироваться
                         </Button>
                     </form>

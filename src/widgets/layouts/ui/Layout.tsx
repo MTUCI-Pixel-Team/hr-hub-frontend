@@ -17,11 +17,13 @@ export const Layout = () => {
 
                 <div className='bg-card rounded-md shadow-sm p-4 flex flex-col gap-4 mt-auto'>
                     <HrCard />
-                    <Button
-                        variant='outline'
-                        className='w-full transition-all duration-300 hover:scale-[105%]'>
-                        Выйти
-                    </Button>
+                    <Link to='auth/login'>
+                        <Button
+                            variant='outline'
+                            className='w-full transition-all duration-300 hover:scale-[105%]'>
+                            Выйти
+                        </Button>
+                    </Link>
                 </div>
             </div>
             <div className='flex-1 flex flex-col h-screen '>

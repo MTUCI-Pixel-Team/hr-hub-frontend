@@ -60,10 +60,15 @@ export const CreatePeople = ({ renderFilter }: { renderFilter: ReactNode }) => {
                         {renderFilter}
                     </div>
                     <div className='flex gap-3'>
-                        <Button type='submit' className='w-32'>
+                        <Button
+                            type='submit'
+                            className='w-32 h-full transition-all duration-300 hover:scale-[102%]'>
                             Создать
                         </Button>
-                        <Button type='button' variant='outline'>
+                        <Button
+                            type='button'
+                            variant='outline'
+                            className='h-full transition-all duration-300 hover:scale-[105%]'>
                             Отмена
                         </Button>
                     </div>
