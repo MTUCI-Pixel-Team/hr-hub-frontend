@@ -1,3 +1,3 @@
-import { Layout } from './Layout.tsx'
+import { Layout, LayoutAuth } from './Layout.tsx'
 
-export { Layout }
+export { Layout, LayoutAuth }
