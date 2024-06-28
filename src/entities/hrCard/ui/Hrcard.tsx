@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom'
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar'
 
-export const HrCard = () => {
+export const HrCard = ({ onClick }: { onClick: () => void }) => {
     return (
-        <Link to={'/settings'}>
+        <Link to={'/settings'} onClick={onClick}>
             <div className='flex items-center gap-4 transition-all duration-300 hover:scale-105'>
                 <Avatar className='w-10 h-10 border'>
                     <AvatarImage src='/placeholder-user.jpg' />

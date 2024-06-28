@@ -74,30 +74,19 @@
         @apply bg-background text-foreground;
     }
 }
-
-/* Ширина скроллбара */
+/* 
 ::-webkit-scrollbar {
     width: 9px;
 }
 
-/* Фон дорожки скроллбара */
 ::-webkit-scrollbar-track {
     border-radius: 9px;
-    background: hsl(
-        210,
-        40%,
-        98%
-    ); /* Используйте переменную из вашего CSS файла */
+    background: hsl(210, 40%, 98%);
 }
 
-/* Фон ползунка скроллбара */
 ::-webkit-scrollbar-thumb {
-    background-color: hsl(
-        222.2,
-        47.4%,
-        11.2%
-    ); /* Используйте переменную из вашего CSS файла */
+    background-color: hsl(222.2, 47.4%, 11.2%);
     border-radius: 9px;
     height: 20%;
-    border: 3px solid hsl(222.2, 47.4%, 11.2%); /* Создает эффект "плавающего" ползунка */
-}
+    border: 3px solid hsl(222.2, 47.4%, 11.2%);
+} */

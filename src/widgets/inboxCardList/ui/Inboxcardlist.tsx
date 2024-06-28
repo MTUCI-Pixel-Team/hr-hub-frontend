@@ -16,7 +16,7 @@ export const InboxCardList = () => {
     return (
         <div className='flex-1 overflow-y-auto'>
             <div className='grid gap-4 p-6'>
-                {new Array(10).fill(0).map((_, index) => (
+                {new Array(3).fill(0).map((_, index) => (
                     <DefaultCard {...data[0]} key={index} />
                 ))}
             </div>

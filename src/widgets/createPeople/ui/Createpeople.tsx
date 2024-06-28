@@ -1,3 +1,4 @@
+import { Plus } from 'lucide-react'
 import { ReactNode } from 'react'
 import { Button } from '@/shared/ui/button'
 import {
@@ -18,8 +19,8 @@ export const CreatePeople = ({ renderFilter }: { renderFilter: ReactNode }) => {
                 <Button
                     variant='outline'
                     size={'sm'}
-                    className='shrink-0 transition-all duration-300 hover:scale-[102%]'>
-                    Создать пользователя
+                    className='shrink-0 w-10 h-10 transition-all duration-300 hover:scale-[102%]'>
+                    <Plus />
                 </Button>
             </DialogTrigger>
             <DialogContent className='overflow-auto'>

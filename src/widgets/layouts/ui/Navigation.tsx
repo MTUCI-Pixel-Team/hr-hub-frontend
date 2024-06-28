@@ -2,13 +2,15 @@ import classNames from 'classnames'
 import { InboxIcon, SettingsIcon, UsersIcon } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
 import { Button } from '@/shared/ui/button'
+import { useLayoutStore } from '../models'
 
 export const Navigation = () => {
+    const setMenu = useLayoutStore((state) => state.setMenu)
+
     return (
         <nav className='flex flex-col gap-2 text-black'>
-            <NavLink to='/'>
+            <NavLink to='/' onClick={() => setMenu(false)}>
                 {({ isActive }) => {
-                    console.log(isActive)
                     return (
                         <Button
                             variant='ghost'
@@ -35,7 +37,7 @@ export const Navigation = () => {
                     )
                 }}
             </NavLink>
-            <NavLink to='/peoples'>
+            <NavLink to='/peoples' onClick={() => setMenu(false)}>
                 {({ isActive }) => {
                     return (
                         <Button
@@ -53,7 +55,7 @@ export const Navigation = () => {
                     )
                 }}
             </NavLink>
-            <NavLink to='/settings'>
+            <NavLink to='/settings' onClick={() => setMenu(false)}>
                 {({ isActive }) => {
                     return (
                         <Button
@@ -71,10 +73,6 @@ export const Navigation = () => {
                     )
                 }}
             </NavLink>
-            {/* <Button variant='ghost' className='justify-start gap-2 w-full'>
-                <SettingsIcon className='w-4 h-4' />
-                Настройки
-            </Button> */}
         </nav>
     )
 }

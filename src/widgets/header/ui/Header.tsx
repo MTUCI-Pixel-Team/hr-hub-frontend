@@ -1,13 +1,22 @@
-import { ReactNode } from 'react'
-import { Filter, Sort } from '@/features/filterSort'
-import { Search } from '@/features/search'
+import { Menu } from 'lucide-react'
+import { FC, ReactNode } from 'react'
+import { Button } from '@/shared/ui/button'
 
-export const Header = ({ renderFilter }: { renderFilter: ReactNode }) => {
+interface HeaderProps {
+    render: ReactNode
+    setMenu: (menu: boolean) => void
+}
+
+export const Header: FC<HeaderProps> = ({ render, setMenu }) => {
     return (
-        <header className='bg-background border-b border-muted flex items-center gap-4 px-6 h-16'>
-            <Search />
-            <Filter render={renderFilter} />
-            <Sort />
+        <header className='p-6 bg-background border-b border-muted flex items-center gap-4 h-16'>
+            <Button
+                size={'sm'}
+                className='max-sm:flex hidden w-10 h-10 items-center justify-center'
+                onClick={() => setMenu(true)}>
+                <Menu />
+            </Button>
+            {render}
         </header>
     )
 }
