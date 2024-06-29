@@ -55,10 +55,10 @@ export const LayoutAuth = () => {
     return (
         <div className='grid grid-cols-1 md:grid-cols-2 h-screen w-full'>
             <Outlet />
-            <div className='flex bg-muted items-center justify-center '>
+            <div className='flex p-16 max-sm:rounded-t-3xl md:rounded-l-3xl bg-primary items-center justify-center '>
                 <Link
                     to={'/'}
-                    className='w-[70%] p-16 rounded-3xl bg-primary transition-all duration-300 hover:scale-[102%]'>
+                    className='w-[90%] transition-all duration-300 hover:scale-[102%]'>
                     <Logo className='w-full filter invert' />
                 </Link>
             </div>

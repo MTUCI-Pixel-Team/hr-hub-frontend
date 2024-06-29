@@ -1,8 +1,15 @@
-import classNames from 'classnames'
-import { CircleX } from 'lucide-react'
-import { useState } from 'react'
+import { useFormContext } from 'react-hook-form'
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar'
-import { Button } from '@/shared/ui/button'
+import { Checkbox } from '@/shared/ui/checkbox'
+import {
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from '@/shared/ui/form'
 import { Input } from '@/shared/ui/input'
 
 const data = [
@@ -136,6 +143,101 @@ const data = [
         name: 'Иван',
         avatar: '/placeholder-user.jpg',
     },
+    {
+        id: '27',
+        name: 'Иван',
+        avatar: '/placeholder-user.jpg',
+    },
+    {
+        id: '28',
+        name: 'Иван',
+        avatar: '/placeholder-user.jpg',
+    },
+    {
+        id: '29',
+        name: 'Иван',
+        avatar: '/placeholder-user.jpg',
+    },
+    {
+        id: '30',
+        name: 'Иван',
+        avatar: '/placeholder-user.jpg',
+    },
+    {
+        id: '31',
+        name: 'Иван',
+        avatar: '/placeholder-user.jpg',
+    },
+    {
+        id: '32',
+        name: 'Иван',
+        avatar: '/placeholder-user.jpg',
+    },
+    {
+        id: '33',
+        name: 'Иван',
+        avatar: '/placeholder-user.jpg',
+    },
+    {
+        id: '34',
+        name: 'Иван',
+        avatar: '/placeholder-user.jpg',
+    },
+    {
+        id: '35',
+        name: 'Иван',
+        avatar: '/placeholder-user.jpg',
+    },
+    {
+        id: '36',
+        name: 'Иван',
+        avatar: '/placeholder-user.jpg',
+    },
+    {
+        id: '37',
+        name: 'Иван',
+        avatar: '/placeholder-user.jpg',
+    },
+    {
+        id: '38',
+        name: 'Иван',
+        avatar: '/placeholder-user.jpg',
+    },
+    {
+        id: '39',
+        name: 'Иван',
+        avatar: '/placeholder-user.jpg',
+    },
+    {
+        id: '40',
+        name: 'Иван',
+        avatar: '/placeholder-user.jpg',
+    },
+    {
+        id: '41',
+        name: 'Иван',
+        avatar: '/placeholder-user.jpg',
+    },
+    {
+        id: '42',
+        name: 'Иван',
+        avatar: '/placeholder-user.jpg',
+    },
+    {
+        id: '43',
+        name: 'Иван',
+        avatar: '/placeholder-user.jpg',
+    },
+    {
+        id: '44',
+        name: 'Иван',
+        avatar: '/placeholder-user.jpg',
+    },
+    {
+        id: '45',
+        name: 'Иван',
+        avatar: '/placeholder-user.jpg',
+    },
 ]
 
 interface Person {
@@ -145,54 +247,113 @@ interface Person {
 }
 
 export const FilteringByPeople = () => {
-    const [pickedPeople, setPickedPeople] = useState<Person[]>([])
+    const form = useFormContext()
 
-    const handelSelectPerson = (person: Person) => {
-        if (pickedPeople.includes(person)) {
-            setPickedPeople(pickedPeople.filter((p) => p.id !== person.id))
-        } else {
-            setPickedPeople([...pickedPeople, person])
-        }
-    }
     return (
-        <>
-            <Input className='mb-2' placeholder='Поиск пользователей...' />
-            <div className='flex flex-col gap-1 max-h-72 overflow-auto'>
-                {data.map((person) => {
-                    const isSelected = pickedPeople.includes(person)
-                    return (
-                        <Button
-                            onClick={() => handelSelectPerson(person)}
-                            variant='ghost'
-                            className={classNames(
-                                'h-12 flex items-center justify-start transition-all duration-300 group',
-                                {
-                                    'bg-primary text-accent-foreground':
-                                        isSelected,
-                                }
-                            )}
-                            type='button'
-                            key={person.id}>
-                            <div
-                                className={classNames(
-                                    'flex items-center gap-3 transition-all duration-300 group-hover:text-primary',
-                                    {
-                                        'text-primary-foreground': isSelected,
-                                    }
-                                )}>
-                                {isSelected && <CircleX className='h-4 w-4' />}
-                                <Avatar className='w-10 h-10 border'>
-                                    <AvatarImage src={person.avatar} />
-                                    <AvatarFallback>
-                                        {person.name[0]}
-                                    </AvatarFallback>
-                                </Avatar>
-                                <h2 className='font-medium'>{person.name}</h2>
+        <Form {...form}>
+            <form>
+                <FormField
+                    control={form.control}
+                    name='username'
+                    render={() => (
+                        <FormItem>
+                            <FormLabel>Выберите пользователей:</FormLabel>
+                            <FormDescription className='pb-1'>
+                                <Input placeholder='Поиск пользователей...' />
+                            </FormDescription>
+                            <div className='flex flex-wrap gap-1 items-center pb-1'>
+                                {form
+                                    .watch('username')
+                                    ?.map((person: Person, index: number) => {
+                                        if (index > 3) return null
+                                        return (
+                                            <Avatar>
+                                                <AvatarImage src={''} />
+                                                <AvatarFallback>
+                                                    {person.name.slice(0, 1)}
+                                                </AvatarFallback>
+                                            </Avatar>
+                                        )
+                                    })}
+                                {form.watch('username').length > 4 ? (
+                                    <Avatar>
+                                        <AvatarFallback>
+                                            +{' '}
+                                            {form.watch('username').length - 4}
+                                        </AvatarFallback>
+                                    </Avatar>
+                                ) : null}
                             </div>
-                        </Button>
-                    )
-                })}
-            </div>
-        </>
+                            <div className='flex flex-col gap-3 max-h-72 overflow-auto relative'>
+                                {data.map((person: Person) => (
+                                    <FormField
+                                        key={person.id}
+                                        control={form.control}
+                                        name='username'
+                                        render={({ field }) => {
+                                            return (
+                                                <FormItem
+                                                    key={person.id}
+                                                    className='min-w-64 flex flex-row items-start space-x-3 space-y-[-2px]'>
+                                                    <FormControl>
+                                                        <Checkbox
+                                                            checked={
+                                                                !!field.value?.find(
+                                                                    (
+                                                                        item: Person
+                                                                    ) =>
+                                                                        item.id ===
+                                                                        person.id
+                                                                )
+                                                            }
+                                                            onCheckedChange={(
+                                                                checked
+                                                            ) => {
+                                                                console.log(
+                                                                    'change',
+                                                                    checked
+                                                                )
+                                                                return checked
+                                                                    ? field.onChange(
+                                                                          [
+                                                                              ...field.value,
+                                                                              person,
+                                                                          ]
+                                                                      )
+                                                                    : field.onChange(
+                                                                          field.value?.filter(
+                                                                              (
+                                                                                  item: Person
+                                                                              ) =>
+                                                                                  item.id !==
+                                                                                  person.id
+                                                                          )
+                                                                      )
+                                                            }}
+                                                        />
+                                                    </FormControl>
+                                                    <FormLabel className='font-normal flex flex-col gap-1'>
+                                                        <p className='font-medium flex gap-1'>
+                                                            {person.name}
+                                                            <p className='font-light text-secondary-foreground'>
+                                                                @Tomato1337
+                                                            </p>
+                                                        </p>
+                                                        <p className='font-light text-secondary-foreground'>
+                                                            Telegram
+                                                        </p>
+                                                    </FormLabel>
+                                                </FormItem>
+                                            )
+                                        }}
+                                    />
+                                ))}
+                            </div>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+            </form>
+        </Form>
     )
 }
