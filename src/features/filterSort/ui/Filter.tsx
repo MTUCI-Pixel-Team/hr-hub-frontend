@@ -27,7 +27,7 @@ export const Filter = ({ render }: { render: ReactNode }) => {
         defaultValues: {
             username: [],
         },
-        mode: 'onChange',
+        mode: 'onSubmit',
     })
 
     const onSubmit = (data: z.infer<typeof formSchema>) => {

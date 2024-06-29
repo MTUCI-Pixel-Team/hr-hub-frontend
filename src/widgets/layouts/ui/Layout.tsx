@@ -1,6 +1,7 @@
 import { XCircle } from 'lucide-react'
 import { Link, Outlet } from 'react-router-dom'
 import { HrCard } from '@/entities/hrCard'
+import { removeTokens } from '@/shared/config/storage'
 import { Button } from '@/shared/ui/button'
 import { Logo } from '@/shared/ui/logo'
 import { useLayoutStore } from '../models'
@@ -35,7 +36,12 @@ export const Layout = () => {
 
                 <div className='bg-card rounded-md shadow-sm p-4 flex flex-col gap-4 mt-auto'>
                     <HrCard onClick={() => setMenu(false)} />
-                    <Link to='auth/login' onClick={() => setMenu(false)}>
+                    <Link
+                        to='auth/login'
+                        onClick={() => {
+                            setMenu(false)
+                            removeTokens()
+                        }}>
                         <Button
                             variant='outline'
                             className='w-full transition-all duration-300 hover:scale-[105%]'>

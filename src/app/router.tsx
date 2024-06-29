@@ -5,11 +5,16 @@ import { PeoplePage } from '@/pages/people'
 import { PeoplesPage } from '@/pages/peoples'
 import { RegisterPage } from '@/pages/register'
 import { Layout, LayoutAuth } from '@/widgets/layouts'
+import { AuthCheck } from '@/entities/authCheck'
 
 export const router = createBrowserRouter([
     {
         path: '/',
-        element: <Layout />,
+        element: (
+            <AuthCheck>
+                <Layout />
+            </AuthCheck>
+        ),
         children: [
             { path: '', element: <HomePage /> },
             { path: 'peoples', element: <PeoplesPage /> },

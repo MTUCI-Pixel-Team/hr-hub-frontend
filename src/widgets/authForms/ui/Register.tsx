@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { LoaderCircle } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
@@ -12,22 +13,23 @@ import {
     FormMessage,
 } from '@/shared/ui/form'
 import { Input } from '@/shared/ui/input'
+import { useCreateUser } from '../api'
 
 const formSchema = z.object({
     username: z.string().min(2, {
-        message: 'Имя должно содержать минимум 2 символа',
+        message: 'Логин должно содержать минимум 2 символа',
     }),
-    email: z.string().email('Введите корректный email'),
     password: z.string().min(6, {
         message: 'Пароль должен содержать минимум 6 символов',
     }),
 })
 
 export const RegisterForm = () => {
+    const mutation = useCreateUser()
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            email: '',
             password: '',
             username: '',
         },
@@ -36,6 +38,7 @@ export const RegisterForm = () => {
 
     const onSubmit = (data: z.infer<typeof formSchema>) => {
         console.log(data)
+        mutation.mutate(data)
     }
 
     return (
@@ -78,30 +81,7 @@ export const RegisterForm = () => {
                                 )
                             }}
                         />
-                        <FormField
-                            control={form.control}
-                            name='email'
-                            render={({ field }) => {
-                                return (
-                                    <FormItem>
-                                        <FormLabel>Email:</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                {...field}
-                                                id='email'
-                                                name='email'
-                                                type='email'
-                                                autoComplete='email'
-                                                required
-                                                className='mt-1 block w-full'
-                                                placeholder='name@example.com'
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )
-                            }}
-                        />
+
                         <FormField
                             name='password'
                             control={form.control}
@@ -126,6 +106,12 @@ export const RegisterForm = () => {
                                 )
                             }}
                         />
+                        {mutation.isPending && (
+                            <span className='flex justify-center'>
+                                <LoaderCircle className='animate-spin' />
+                            </span>
+                        )}
+                        <FormMessage>{mutation.error?.message}</FormMessage>
                         <Button
                             type='submit'
                             className='w-full transition-all duration-300 hover:scale-[102%]'>
