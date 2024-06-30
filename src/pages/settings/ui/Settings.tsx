@@ -16,7 +16,7 @@ export const SettingsPage = () => {
                 }
             />
             <main className='p-6'>
-                <HrCard />
+                <HrCard scale={false} />
                 <SettingsForm />
             </main>
         </>

@@ -146,6 +146,9 @@ export const SettingsForm = () => {
                     </div>
                 </div>
                 <FormMessage>{mutation.error?.message}</FormMessage>
+                {mutation.isSuccess ? (
+                    <p className='font-light'>Данные успешно обновлены</p>
+                ) : null}
                 <div className='flex gap-2'>
                     <Button
                         className='w-48 transition-all duration-300 hover:scale-[102%]'
