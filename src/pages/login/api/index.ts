@@ -4,21 +4,6 @@ import { Api } from '@/shared/api'
 import { setRefreshToken, setToken } from '@/shared/config/storage'
 import { IAuthForm, IAuthFormRequest } from '../models'
 
-export const useCreateUser = () => {
-    const navigate = useNavigate()
-
-    const mutation = useMutation({
-        mutationFn: (data: IAuthForm) => {
-            return Api.post('user/create/', data)
-        },
-        onSuccess: () => {
-            navigate('/auth/login')
-        },
-    })
-
-    return mutation
-}
-
 export const useLoginUser = () => {
     const navigate = useNavigate()
 

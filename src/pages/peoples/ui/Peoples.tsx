@@ -36,7 +36,7 @@ export const PeoplesPage = () => {
                 {new Array(10).fill(0).map((_, index) => (
                     <Link to='/peoples/1'>
                         <DefaultCard
-                            className='transition-all duration-300 hover:scale-[101%] hover:bg-primary-foreground'
+                            className='rounded-2xl transition-all duration-300 hover:scale-[101%] hover:bg-primary-foreground'
                             {...data[0]}
                             key={index}
                         />

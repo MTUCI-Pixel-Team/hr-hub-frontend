@@ -284,7 +284,7 @@ export const FilteringByPeople = () => {
                                     </Avatar>
                                 ) : null}
                             </div>
-                            <div className='flex flex-col gap-3 max-h-72 overflow-auto relative'>
+                            <div className='flex flex-col  max-h-72 overflow-y-auto overflow-x-hidden relative'>
                                 {data.map((person: Person) => (
                                     <FormField
                                         key={person.id}
@@ -294,7 +294,7 @@ export const FilteringByPeople = () => {
                                             return (
                                                 <FormItem
                                                     key={person.id}
-                                                    className='min-w-64 flex flex-row items-start space-x-3 space-y-[-2px]'>
+                                                    className='min-w-64 flex flex-row items-start space-x-3 space-y-[-2px] p-2 transition-all duration-300 rounded-xl hover:bg-primary-foreground hover:scale-[101%]'>
                                                     <FormControl>
                                                         <Checkbox
                                                             checked={
@@ -332,7 +332,7 @@ export const FilteringByPeople = () => {
                                                             }}
                                                         />
                                                     </FormControl>
-                                                    <FormLabel className='font-normal flex flex-col gap-1'>
+                                                    <FormLabel className='cursor-pointer font-normal flex flex-col gap-1 w-full'>
                                                         <p className='font-medium flex gap-1'>
                                                             {person.name}
                                                             <p className='font-light text-secondary-foreground'>

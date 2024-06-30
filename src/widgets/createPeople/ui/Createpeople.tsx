@@ -21,22 +21,7 @@ import {
     FormMessage,
 } from '@/shared/ui/form'
 import { Input } from '@/shared/ui/input'
-
-const formSchema = z.object({
-    name: z.string().min(2, {
-        message: 'Имя должно содержать минимум 2 символа',
-    }),
-    profession: z.string().min(2, {
-        message: 'Профессия должна содержать минимум 2 символа',
-    }),
-    username: z
-        .array(
-            z.object({ id: z.string(), name: z.string(), avatar: z.string() })
-        )
-        .refine((value) => value.length > 0, {
-            message: 'Добавьте хотя бы один никнейм',
-        }),
-})
+import { formSchema } from '../models'
 
 export const CreatePeople = ({ renderFilter }: { renderFilter: ReactNode }) => {
     const [modalOpen, setModalOpen] = useState<boolean>(false)
@@ -67,7 +52,7 @@ export const CreatePeople = ({ renderFilter }: { renderFilter: ReactNode }) => {
                     <Plus />
                 </Button>
             </DialogTrigger>
-            <DialogContent className='overflow-auto'>
+            <DialogContent className='overflow-auto rounded-2xl'>
                 <DialogHeader className='overflow-auto'>
                     <DialogTitle>Создание нового пользователя</DialogTitle>
                     <DialogDescription>
@@ -136,11 +121,14 @@ export const CreatePeople = ({ renderFilter }: { renderFilter: ReactNode }) => {
                                     Создать
                                 </Button>
                                 <Button
-                                    onClick={() => setModalOpen(false)}
+                                    onClick={(e) => {
+                                        e.preventDefault()
+                                        form.reset()
+                                    }}
                                     type='button'
                                     variant='secondary'
                                     className='h-full transition-all duration-300 hover:scale-[105%]'>
-                                    Отмена
+                                    Сбросить
                                 </Button>
                             </div>
                         </form>
