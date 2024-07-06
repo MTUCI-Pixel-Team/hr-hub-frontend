@@ -5,6 +5,13 @@ export interface IAuthForm {
     password: string
 }
 
+export interface ICreateUserResponse {
+    username: string
+    password: string
+    email: string
+    avatar: string
+}
+
 export const formSchema = z.object({
     username: z
         .string()
@@ -20,4 +27,5 @@ export const formSchema = z.object({
     password: z.string().min(8, {
         message: 'Пароль должен содержать минимум 8 символов',
     }),
+    email: z.string().email('Введите действительный email'),
 })

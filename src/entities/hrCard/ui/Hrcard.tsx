@@ -1,7 +1,9 @@
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar'
 import { Skeleton } from '@/shared/ui/skeleton'
 import { useGetInfoHrUser } from '../api'
+import { useHrUserInfo } from '../models'
 
 export const HrCard = ({
     onClick,
@@ -11,6 +13,17 @@ export const HrCard = ({
     scale?: boolean
 }) => {
     const query = useGetInfoHrUser()
+    const setHrUsername = useHrUserInfo((state) => state.setUsername)
+    const setHrEmail = useHrUserInfo((state) => state.setEmail)
+    const setHrId = useHrUserInfo((state) => state.setId)
+
+    useEffect(() => {
+        if (query.data && query.isSuccess && !query.isLoading) {
+            setHrUsername(query.data.username)
+            setHrEmail(query.data.email)
+            setHrId(query.data.id)
+        }
+    }, [query, setHrUsername])
 
     return (
         <Link to={'/settings'} onClick={onClick}>

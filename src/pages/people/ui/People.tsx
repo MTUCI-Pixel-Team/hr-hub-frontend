@@ -1,20 +1,19 @@
 import { ArrowLeftIcon, MailIcon, PhoneIcon } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { DefaultCard } from '@/entities/defaultCard'
 import { Avatar, AvatarImage, AvatarFallback } from '@/shared/ui/avatar'
 import { Button } from '@/shared/ui/button'
 
-const data = [
-    {
-        name: 'Александр',
-        username: 'alex',
-        platform: 'Telegram',
-        profession: 'Веб-разработчик',
-        date: '16:30 26.06.2024',
-        inbox: true,
-        text: 'Привет, как дела?',
-    },
-]
+// const data = [
+//     {
+//         name: 'Александр',
+//         username: 'alex',
+//         platform: 'Telegram',
+//         profession: 'Веб-разработчик',
+//         date: '16:30 26.06.2024',
+//         inbox: true,
+//         text: 'Привет, как дела?',
+//     },
+// ]
 
 export const PeoplePage = () => {
     return (
@@ -56,9 +55,7 @@ export const PeoplePage = () => {
                     </Button>
                 </div>
             </header>
-            <main className='p-6'>
-                <DefaultCard {...data[0]} />
-            </main>
+            <main className='p-6'>{/* <DefaultCard {...data[0]} /> */}</main>
         </>
     )
 }

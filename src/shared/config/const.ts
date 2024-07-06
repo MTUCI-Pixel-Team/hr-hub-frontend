@@ -1,1 +1,1 @@
-export const API_URL = 'https://hrhub.pixel-team.ru/'
+export const API_URL = 'https://hrhub.pixel-team.ru'

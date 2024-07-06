@@ -5,6 +5,7 @@ import { PeoplePage } from '@/pages/people'
 import { PeoplesPage } from '@/pages/peoples'
 import { RegisterPage } from '@/pages/register'
 import { SettingsPage } from '@/pages/settings'
+import { AvitoCallback } from '@/widgets/callbacks/avito'
 import { Layout, LayoutAuth } from '@/widgets/layouts'
 import { AuthCheck } from '@/entities/authCheck'
 
@@ -31,5 +32,9 @@ export const router = createBrowserRouter([
             { path: 'login', element: <LoginPage /> },
             { path: 'register', element: <RegisterPage /> },
         ],
+    },
+    {
+        path: '/callback/avito',
+        element: <AvitoCallback />,
     },
 ])

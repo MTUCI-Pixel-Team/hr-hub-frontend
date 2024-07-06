@@ -25,6 +25,7 @@ export const RegisterPage = () => {
             password: '',
             repeatPassword: '',
             username: '',
+            email: '',
         },
         mode: 'onChange',
     })
@@ -76,6 +77,27 @@ export const RegisterPage = () => {
                                                 {...field}
                                                 autoComplete='name'
                                                 placeholder='Tomato1337'
+                                                required
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )
+                            }}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name='email'
+                            render={({ field }) => {
+                                return (
+                                    <FormItem>
+                                        <FormLabel>Email:</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                autoComplete='name'
+                                                placeholder='example@gmail.com'
                                                 required
                                             />
                                         </FormControl>

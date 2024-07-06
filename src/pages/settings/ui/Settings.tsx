@@ -1,5 +1,8 @@
 import { Header } from '@/widgets/header'
 import { useLayoutStore } from '@/widgets/layouts'
+import { ModalAvito } from '@/widgets/modals/modalAvito'
+import { ModalTelegram } from '@/widgets/modals/modalTelegram'
+import { ModalYandex } from '@/widgets/modals/modalYandex'
 import { SettingsForm } from '@/widgets/settingsForm'
 import { HrCard } from '@/entities/hrCard'
 
@@ -17,7 +20,11 @@ export const SettingsPage = () => {
             />
             <main className='p-6'>
                 <HrCard scale={false} />
-                <SettingsForm />
+                <SettingsForm
+                    renderYandex={<ModalYandex />}
+                    renderTelegram={<ModalTelegram />}
+                    renderAvito={<ModalAvito />}
+                />
             </main>
         </>
     )
