@@ -31,7 +31,11 @@ export const getPlatform = (chatLink: string) => {
             },
             'web.telegram.org': {
                 name: 'Telegram',
-                color: 'text-blue-400',
+                color: 'text-blue-300',
+            },
+            'avito.ru': {
+                name: 'Avito',
+                color: 'text-green-400',
             },
         }
 
