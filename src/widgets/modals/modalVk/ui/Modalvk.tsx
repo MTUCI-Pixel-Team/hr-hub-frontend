@@ -11,20 +11,20 @@ import {
     DialogDescription,
 } from '@/shared/ui/dialog'
 import { FormMessage } from '@/shared/ui/form'
-import { useConnectTelegram } from '../api'
+import { useConnectVk } from '../api'
 
-export const ModalTelegram = () => {
-    const mutation = useConnectTelegram()
+export const ModalVk = () => {
+    const mutation = useConnectVk()
     const hrUsername = useHrUserInfo((state) => state.username)
     const hrId = useHrUserInfo((state) => state.id)
     const services = useHrUserInfo((state) => state.services).filter(
-        (item) => item.service_name === 'Telegram'
+        (item) => item.service_name === 'vk'
     )
 
     const onConnect = () => {
         if (hrId) {
             const data = {
-                service_name: 'Telegram',
+                service_name: 'vk',
                 service_username: hrUsername,
                 user_id: hrId,
             }
@@ -35,19 +35,22 @@ export const ModalTelegram = () => {
     return (
         <Dialog>
             <DialogTrigger>
-                <Button className='flex gap-1' variant='outline' type='button'>
-                    <img className='w-full h-full' src='./telegram.svg' />
-                    Telegram
+                <Button
+                    className='flex gap-1 justify-center items-center'
+                    variant='outline'
+                    type='button'>
+                    <img className='w-full h-full' src='./vk.svg' />
+                    VK
                 </Button>
             </DialogTrigger>
             <DialogContent className='overflow-y-auto rounded-2xl max-h-[700px]'>
                 <DialogHeader className='overflow-auto'>
-                    <DialogTitle>Подключение Telegram</DialogTitle>
+                    <DialogTitle>Подключение Vk</DialogTitle>
                     <DialogDescription>
                         {services.length === 0 ? (
                             <>Для подключения нажмите на кнопку ниже</>
                         ) : (
-                            <>Вы уже подключили Telegram </>
+                            <>Вы уже подключили Vk </>
                         )}
                     </DialogDescription>
                     {services.length === 0 ? (
@@ -78,7 +81,7 @@ export const ModalTelegram = () => {
                                 username/id:
                             </p>
                             <p className='font-medium'>
-                                https://t.me/HRspecialistShopix_bot
+                                https://vk.com/hrhub1337
                             </p>
                         </div>
                     )}

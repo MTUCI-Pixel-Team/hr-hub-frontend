@@ -1,5 +1,5 @@
-export interface IConnectTelegram {
+export interface IConnectVk {
+    user_id: number
     service_name: string
     service_username: string
-    user_id: number
 }

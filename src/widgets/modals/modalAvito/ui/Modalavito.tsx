@@ -66,13 +66,9 @@ export const ModalAvito = () => {
 
                     {services.length !== 0 && (
                         <div>
-                            <p className='text-md'>
-                                Чтобы получать сообщения, отправьте данного бота
-                                вашим клиентам. Ваш клиент должен выбрать ваш
-                                username/id:
-                            </p>
-                            <p className='text-xl font-medium'>
-                                https://t.me/HRspecialistShopix_bot
+                            <p>
+                                Теперь вы сможете отслеживать все ваши сообщения
+                                с данного сервиса
                             </p>
                         </div>
                     )}

@@ -39,20 +39,14 @@ export const DefaultCard: FC<DefaultCardProps> = ({
                 </Avatar>
                 <div className='flex-1 w-full'>
                     <div className='flex items-center flex-wrap justify-between'>
-                        <div className='flex gap-2 flex-wrap'>
-                            <div className='font-medium'>{from_username}</div>
+                        <div className='flex gap-2 flex-wrap '>
+                            <div className='font-medium '>{from_username}</div>
                             {inbox ? (
                                 <>
-                                    {/* <div className='font-small text-muted-foreground'>
-                                        {from_username}
-                                    </div> */}
                                     <div
-                                        className={`font-small text-muted-foreground ${platform?.color}`}>
+                                        className={`font-small ${platform?.color}`}>
                                         {platform?.name}
                                     </div>
-                                    {/* <div className='font-small text-blue-500'>
-                                        {platform}
-                                    </div> */}
                                 </>
                             ) : null}
                         </div>

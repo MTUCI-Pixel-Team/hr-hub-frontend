@@ -10,8 +10,8 @@ export const InboxCardList = () => {
 
     if (query.isLoading) {
         return (
-            <div className='p-6 flex flex-col gap-4'>
-                {new Array(10).fill(0).map(() => (
+            <div className='p-6 flex flex-col gap-4 overflow-y-auto'>
+                {new Array(8).fill(0).map(() => (
                     <Skeleton className=' h-20 w-full' />
                 ))}
             </div>

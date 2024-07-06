@@ -23,12 +23,14 @@ interface SettingsFormProps {
     renderYandex: ReactNode
     renderTelegram: ReactNode
     renderAvito: ReactNode
+    renderVk: ReactNode
 }
 
 export const SettingsForm: FC<SettingsFormProps> = ({
     renderYandex,
     renderTelegram,
     renderAvito,
+    renderVk,
 }) => {
     const username = useHrUserInfo((state) => state.username)
     const email = useHrUserInfo((state) => state.email)
@@ -172,10 +174,7 @@ export const SettingsForm: FC<SettingsFormProps> = ({
                     <div className='flex items-center gap-2 flex-wrap'>
                         {renderTelegram}
                         {renderAvito}
-                        {/* <Button variant='outline' type='button'>
-                            <MailIcon className='mr-2 h-4 w-4' />
-                            Yandex почта
-                        </Button> */}
+                        {renderVk}
                         {renderYandex}
                     </div>
                 </div>
