@@ -1,5 +1,7 @@
 import { LoaderCircle } from 'lucide-react'
+import { useState } from 'react'
 import { useHrUserInfo } from '@/entities/hrCard'
+import { setStatusMessage } from '@/shared/lib/utils'
 import { Button } from '@/shared/ui/button'
 
 import {
@@ -10,11 +12,24 @@ import {
     DialogTitle,
     DialogDescription,
 } from '@/shared/ui/dialog'
-import { FormMessage } from '@/shared/ui/form'
-import { useConnectTelegram } from '../api'
+import { TimeStatusMessages } from '@/shared/ui/time-status-messages'
+import { useConnectTelegram, useDeleteTelegram } from '../api'
 
 export const ModalTelegram = () => {
-    const mutation = useConnectTelegram()
+    const mutationConnect = useConnectTelegram()
+    const mutationDelete = useDeleteTelegram()
+
+    const [messages, setMessages] = useState<{
+        delete: string
+        success: string
+        update: string
+        error: string
+    }>({
+        delete: '',
+        success: '',
+        update: '',
+        error: '',
+    })
     const hrUsername = useHrUserInfo((state) => state.username)
     const hrId = useHrUserInfo((state) => state.id)
     const services = useHrUserInfo((state) => state.services).filter(
@@ -28,7 +43,22 @@ export const ModalTelegram = () => {
                 service_username: hrUsername,
                 user_id: hrId,
             }
-            mutation.mutate(data)
+            mutationConnect.mutate(data, {
+                onSuccess: () => {
+                    setStatusMessage({
+                        message: 'Сервис успешно добавлен',
+                        type: 'success',
+                        setMessages,
+                    })
+                },
+                onError: (err) => {
+                    setStatusMessage({
+                        message: err.message,
+                        type: 'error',
+                        setMessages,
+                    })
+                },
+            })
         }
     }
 
@@ -52,6 +82,14 @@ export const ModalTelegram = () => {
                     </DialogDescription>
                     {services.length === 0 ? (
                         <>
+                            {mutationConnect.isPending ? (
+                                <span className='flex w-full justify-center items-center mt-2'>
+                                    <LoaderCircle className='animate-spin' />
+                                </span>
+                            ) : null}
+
+                            <TimeStatusMessages messages={messages} />
+
                             <Button
                                 onClick={onConnect}
                                 className='flex gap-1'
@@ -59,16 +97,6 @@ export const ModalTelegram = () => {
                                 type='button'>
                                 Подключить
                             </Button>
-                            {mutation.isPending ? (
-                                <span className='flex w-full justify-center items-center'>
-                                    <LoaderCircle className='animate-spin' />
-                                </span>
-                            ) : null}
-                            {mutation.isError ? (
-                                <FormMessage>
-                                    {mutation.error.message}
-                                </FormMessage>
-                            ) : null}
                         </>
                     ) : (
                         <div>
@@ -80,6 +108,40 @@ export const ModalTelegram = () => {
                             <p className='font-medium'>
                                 https://t.me/HRspecialistShopix_bot
                             </p>
+
+                            {mutationDelete.isPending ? (
+                                <span className='flex w-full justify-center items-center'>
+                                    <LoaderCircle className='animate-spin' />
+                                </span>
+                            ) : null}
+
+                            <TimeStatusMessages messages={messages} />
+
+                            <Button
+                                onClick={() =>
+                                    mutationDelete.mutate(services[0].id, {
+                                        onSuccess: () => {
+                                            setStatusMessage({
+                                                message:
+                                                    'Сервис успешно удалён',
+                                                type: 'delete',
+                                                setMessages,
+                                            })
+                                        },
+                                        onError: (err) => {
+                                            setStatusMessage({
+                                                message: err.message,
+                                                type: 'error',
+                                                setMessages,
+                                            })
+                                        },
+                                    })
+                                }
+                                className='mt-4 w-full'
+                                variant='outline'
+                                type='button'>
+                                Отключить
+                            </Button>
                         </div>
                     )}
                 </DialogHeader>

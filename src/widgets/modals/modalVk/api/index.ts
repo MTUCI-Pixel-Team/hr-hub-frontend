@@ -18,3 +18,20 @@ export const useConnectVk = () => {
 
     return mutation
 }
+
+export const useDeleteVk = () => {
+    const queryClient = useQueryClient()
+
+    const query = useMutation({
+        mutationFn: (id: number) => {
+            return Api.deleteWithToken(`service/delete/${id}/`)
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ['services'],
+            })
+        },
+    })
+
+    return query
+}

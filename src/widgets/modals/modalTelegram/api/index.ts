@@ -18,3 +18,20 @@ export const useConnectTelegram = () => {
 
     return query
 }
+
+export const useDeleteTelegram = () => {
+    const queryClient = useQueryClient()
+
+    const query = useMutation({
+        mutationFn: (id: number) => {
+            return Api.deleteWithToken(`service/delete/${id}/`)
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ['services'],
+            })
+        },
+    })
+
+    return query
+}

@@ -1,5 +1,7 @@
 import { LoaderCircle } from 'lucide-react'
+import { useState } from 'react'
 import { useHrUserInfo } from '@/entities/hrCard'
+import { setStatusMessage } from '@/shared/lib/utils'
 import { Button } from '@/shared/ui/button'
 
 import {
@@ -10,11 +12,24 @@ import {
     DialogTitle,
     DialogDescription,
 } from '@/shared/ui/dialog'
-import { FormMessage } from '@/shared/ui/form'
-import { useConnectVk } from '../api'
+import { TimeStatusMessages } from '@/shared/ui/time-status-messages'
+import { useConnectVk, useDeleteVk } from '../api'
 
 export const ModalVk = () => {
-    const mutation = useConnectVk()
+    const mutationCreate = useConnectVk()
+    const mutationDelete = useDeleteVk()
+
+    const [messages, setMessages] = useState<{
+        delete: string
+        success: string
+        update: string
+        error: string
+    }>({
+        delete: '',
+        success: '',
+        update: '',
+        error: '',
+    })
     const hrUsername = useHrUserInfo((state) => state.username)
     const hrId = useHrUserInfo((state) => state.id)
     const services = useHrUserInfo((state) => state.services).filter(
@@ -28,7 +43,22 @@ export const ModalVk = () => {
                 service_username: hrUsername,
                 user_id: hrId,
             }
-            mutation.mutate(data)
+            mutationCreate.mutate(data, {
+                onSuccess: () => {
+                    setStatusMessage({
+                        message: 'Сервис успешно добавлен',
+                        type: 'success',
+                        setMessages,
+                    })
+                },
+                onError: (err) => {
+                    setStatusMessage({
+                        message: err.message,
+                        type: 'error',
+                        setMessages,
+                    })
+                },
+            })
         }
     }
 
@@ -45,7 +75,7 @@ export const ModalVk = () => {
             </DialogTrigger>
             <DialogContent className='overflow-y-auto rounded-2xl max-h-[700px]'>
                 <DialogHeader className='overflow-auto'>
-                    <DialogTitle>Подключение Vk</DialogTitle>
+                    <DialogTitle>Подключение VK</DialogTitle>
                     <DialogDescription>
                         {services.length === 0 ? (
                             <>Для подключения нажмите на кнопку ниже</>
@@ -55,6 +85,14 @@ export const ModalVk = () => {
                     </DialogDescription>
                     {services.length === 0 ? (
                         <>
+                            {mutationCreate.isPending ? (
+                                <span className='flex w-full justify-center items-center'>
+                                    <LoaderCircle className='animate-spin' />
+                                </span>
+                            ) : null}
+
+                            <TimeStatusMessages messages={messages} />
+
                             <Button
                                 onClick={onConnect}
                                 className='flex gap-1'
@@ -62,16 +100,6 @@ export const ModalVk = () => {
                                 type='button'>
                                 Подключить
                             </Button>
-                            {mutation.isPending ? (
-                                <span className='flex w-full justify-center items-center'>
-                                    <LoaderCircle className='animate-spin' />
-                                </span>
-                            ) : null}
-                            {mutation.isError ? (
-                                <FormMessage>
-                                    {mutation.error.message}
-                                </FormMessage>
-                            ) : null}
                         </>
                     ) : (
                         <div>
@@ -83,6 +111,40 @@ export const ModalVk = () => {
                             <p className='font-medium'>
                                 https://vk.com/hrhub1337
                             </p>
+
+                            {mutationDelete.isPending ? (
+                                <span className='flex w-full justify-center items-center'>
+                                    <LoaderCircle className='animate-spin' />
+                                </span>
+                            ) : null}
+
+                            <TimeStatusMessages messages={messages} />
+
+                            <Button
+                                onClick={() =>
+                                    mutationDelete.mutate(services[0].id, {
+                                        onSuccess: () => {
+                                            setStatusMessage({
+                                                message:
+                                                    'Сервис успешно удалён',
+                                                type: 'delete',
+                                                setMessages,
+                                            })
+                                        },
+                                        onError: (err) => {
+                                            setStatusMessage({
+                                                message: err.message,
+                                                type: 'error',
+                                                setMessages,
+                                            })
+                                        },
+                                    })
+                                }
+                                className='mt-2 w-full'
+                                variant='outline'
+                                type='button'>
+                                Отключить
+                            </Button>
                         </div>
                     )}
                 </DialogHeader>

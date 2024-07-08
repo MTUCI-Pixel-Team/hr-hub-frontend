@@ -1,6 +1,8 @@
 import { LoaderCircle } from 'lucide-react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useHrUserInfo } from '@/entities/hrCard'
+import { setStatusMessage } from '@/shared/lib/utils'
 import { Button } from '@/shared/ui/button'
 
 import {
@@ -11,12 +13,22 @@ import {
     DialogTitle,
     DialogDescription,
 } from '@/shared/ui/dialog'
-import { useGetAvitoRegistrationUrl } from '../api'
+import { TimeStatusMessages } from '@/shared/ui/time-status-messages'
+import { useDeleteAvito, useGetAvitoRegistrationUrl } from '../api'
 
 export const ModalAvito = () => {
-    // const mutation = useConnectTelegram()
-    // const hrUsername = useHrUserInfo((state) => state.username)
-    // const hrId = useHrUserInfo((state) => state.id)
+    const [messages, setMessages] = useState<{
+        delete: string
+        success: string
+        update: string
+        error: string
+    }>({
+        delete: '',
+        success: '',
+        update: '',
+        error: '',
+    })
+    const mutationDelete = useDeleteAvito()
     const query = useGetAvitoRegistrationUrl()
     const services = useHrUserInfo((state) => state.services).filter(
         (item) => item.service_name === 'Avito'
@@ -45,6 +57,7 @@ export const ModalAvito = () => {
                             <>Вы уже подключили Avito </>
                         )}
                     </DialogDescription>
+
                     {query.isLoading && (
                         <span className='w-full flex justify-center items-center'>
                             <LoaderCircle className='animate-spin' />
@@ -70,6 +83,40 @@ export const ModalAvito = () => {
                                 Теперь вы сможете отслеживать все ваши сообщения
                                 с данного сервиса
                             </p>
+
+                            {mutationDelete.isPending ? (
+                                <span className='flex w-full justify-center items-center'>
+                                    <LoaderCircle className='animate-spin' />
+                                </span>
+                            ) : null}
+
+                            <TimeStatusMessages messages={messages} />
+
+                            <Button
+                                onClick={() =>
+                                    mutationDelete.mutate(services[0].id, {
+                                        onSuccess: () => {
+                                            setStatusMessage({
+                                                message:
+                                                    'Сервис успешно удалён',
+                                                type: 'delete',
+                                                setMessages,
+                                            })
+                                        },
+                                        onError: (err) => {
+                                            setStatusMessage({
+                                                message: err.message,
+                                                type: 'error',
+                                                setMessages,
+                                            })
+                                        },
+                                    })
+                                }
+                                className='mt-4 w-full'
+                                variant='outline'
+                                type='button'>
+                                Отключить
+                            </Button>
                         </div>
                     )}
                 </DialogHeader>

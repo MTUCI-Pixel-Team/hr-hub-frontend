@@ -1,4 +1,5 @@
 import { type ClassValue, clsx } from 'clsx'
+import { Dispatch, SetStateAction } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 export function cn(...inputs: ClassValue[]) {
@@ -44,4 +45,39 @@ export const getPlatform = (chatLink: string) => {
 
     const domain = extractDomain(chatLink)
     return getSocialNetwork(domain)
+}
+
+type MessagesTypes = 'delete' | 'success' | 'update' | 'error'
+
+type Messages = {
+    delete: string
+    success: string
+    update: string
+    error: string
+}
+
+// Определяем тип для аргументов функции
+type SetMessageArgs = {
+    message: string
+    type: MessagesTypes
+    setMessages: Dispatch<SetStateAction<Messages>>
+}
+
+// Типизированная функция
+export const setStatusMessage = ({
+    message,
+    type,
+    setMessages,
+}: SetMessageArgs): void => {
+    setMessages((prev) => ({
+        ...prev,
+        [type]: message,
+    }))
+
+    setTimeout(() => {
+        setMessages((prev) => ({
+            ...prev,
+            [type]: '',
+        }))
+    }, 3000)
 }

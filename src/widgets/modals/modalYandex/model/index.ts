@@ -5,4 +5,5 @@ export const formSchema = z.object({
     app_password: z.string(),
     service_name: z.string().default('Yandex Mail'),
     id: z.number().optional(),
+    service_username: z.string(),
 })

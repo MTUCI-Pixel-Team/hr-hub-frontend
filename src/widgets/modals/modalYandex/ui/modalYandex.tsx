@@ -1,9 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { LoaderCircle, MailIcon } from 'lucide-react'
+import { LoaderCircle } from 'lucide-react'
 import { FormEvent, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useHrUserInfo } from '@/entities/hrCard'
+import { setStatusMessage } from '@/shared/lib/utils'
 import { Button } from '@/shared/ui/button'
 import { Card, CardContent } from '@/shared/ui/card'
 import {
@@ -30,18 +31,36 @@ import {
     FormMessage,
 } from '@/shared/ui/form'
 import { Input } from '@/shared/ui/input'
-import { useCreateYandexMail, useUpdateYandexMail } from '../api'
+import { TimeStatusMessages } from '@/shared/ui/time-status-messages'
+import {
+    useCreateYandexMail,
+    useDeleteYandexMail,
+    useUpdateYandexMail,
+} from '../api'
 import { formSchema } from '../model'
 
 export const ModalYandex = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [messages, setMessages] = useState<{
+        delete: string
+        success: string
+        update: string
+        error: string
+    }>({
+        delete: '',
+        success: '',
+        update: '',
+        error: '',
+    })
     const services = useHrUserInfo((state) => state.services).filter(
         (item) => item.service_name === 'Yandex Mail'
     )
+    const username = useHrUserInfo((state) => state.username)
 
     const mutationCreate = useCreateYandexMail()
     const mutationUpdate = useUpdateYandexMail()
+    const mutationDelete = useDeleteYandexMail()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -50,50 +69,80 @@ export const ModalYandex = () => {
             app_password: services[0]?.app_password || '',
             id: services[0]?.id || undefined,
             service_name: 'Yandex Mail',
+            service_username: username,
         },
         mode: 'onChange',
     })
 
     useEffect(() => {
-        if (services.length && isLoading) {
+        if (services.length > 0 && isLoading) {
             form.reset({
                 email: services[0].email,
                 app_password: services[0].app_password,
                 id: services[0].id,
-                service_name: 'Yandex Mail',
+                service_username: username,
             })
             setIsLoading(false)
         }
-    }, [services, form, isLoading])
+    }, [services, form, isLoading, username])
 
-    const onSubmit = (data: z.infer<typeof formSchema>, event?: FormEvent) => {
+    const onSubmit = async (
+        data: z.infer<typeof formSchema>,
+        event?: FormEvent
+    ) => {
         if (event) {
             event.preventDefault()
             event.stopPropagation()
         }
 
-        if (services) {
-            mutationUpdate.mutate(data)
+        if (services.length > 0) {
+            mutationUpdate.mutate(data, {
+                onSuccess: () => {
+                    setStatusMessage({
+                        message: 'Данные успешно обновлены',
+                        type: 'update',
+                        setMessages,
+                    })
+                },
+                onError: (err) => {
+                    setStatusMessage({
+                        message: err.message,
+                        type: 'error',
+                        setMessages,
+                    })
+                },
+            })
         } else {
-            mutationCreate.mutate(data)
+            mutationCreate.mutate(data, {
+                onSuccess: () => {
+                    setStatusMessage({
+                        message: 'Данные успешно сохранены',
+                        type: 'success',
+                        setMessages,
+                    })
+                },
+                onError: (err) => {
+                    setStatusMessage({
+                        message: err.message,
+                        type: 'error',
+                        setMessages,
+                    })
+                },
+            })
         }
-
-        console.log(data)
     }
-
-    console.log(services)
 
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger>
-                <Button variant='outline' type='button'>
-                    <MailIcon className='mr-2 h-4 w-4' />
-                    Yandex почта
+                <Button variant='outline' type='button' className='flex gap-2'>
+                    <img className='h-[70%] grayscale' src='./yandex.svg' />
+                    Yandex Почта
                 </Button>
             </DialogTrigger>
             <DialogContent className='overflow-y-auto rounded-2xl max-h-[700px]'>
                 <DialogHeader className='overflow-auto'>
-                    <DialogTitle>Подключение Yandex почты</DialogTitle>
+                    <DialogTitle>Подключение Yandex Почты</DialogTitle>
                     <DialogDescription>
                         Для успешного подключения укажите логин и пароль от
                         почты. Чтобы это успешно сделать, следуйте инструкциям.
@@ -217,31 +266,55 @@ export const ModalYandex = () => {
                         </div>
 
                         {mutationUpdate.isPending ||
-                        mutationCreate.isPending ? (
+                        mutationCreate.isPending ||
+                        mutationDelete.isPending ? (
                             <span className='flex justify-center'>
                                 <LoaderCircle className='animate-spin' />
                             </span>
                         ) : null}
 
-                        {mutationUpdate.isError || mutationCreate.isError ? (
-                            <FormMessage>
-                                {mutationUpdate.error?.message ||
-                                    mutationCreate.error?.message ||
-                                    'Ошибка'}
-                            </FormMessage>
-                        ) : null}
+                        <TimeStatusMessages messages={messages} />
 
-                        {mutationUpdate.isSuccess ||
-                        mutationCreate.isSuccess ? (
-                            <p>Данные успешно сохранены</p>
-                        ) : null}
-
-                        <div className='flex gap-4'>
-                            <Button
-                                onClick={(e) => e.stopPropagation()}
-                                type='submit'>
-                                {services ? 'Изменить' : 'Подключить'}
+                        <div className='flex gap-3'>
+                            <Button type='submit'>
+                                {services.length > 0
+                                    ? 'Изменить'
+                                    : 'Подключить'}
                             </Button>
+                            {services.length > 0 && (
+                                <Button
+                                    onClick={() => {
+                                        mutationDelete.mutate(services[0].id, {
+                                            onSuccess: () => {
+                                                form.reset({
+                                                    email: '',
+                                                    app_password: '',
+                                                    id: undefined,
+                                                    service_name: 'Yandex Mail',
+                                                    service_username: username,
+                                                })
+                                                setStatusMessage({
+                                                    message:
+                                                        'Сервис успешно удалён',
+                                                    type: 'delete',
+                                                    setMessages,
+                                                })
+                                                setIsLoading(true)
+                                            },
+                                            onError: (err) => {
+                                                setStatusMessage({
+                                                    message: err.message,
+                                                    type: 'error',
+                                                    setMessages,
+                                                })
+                                            },
+                                        })
+                                    }}
+                                    type='button'
+                                    variant='secondary'>
+                                    Удалить сервис
+                                </Button>
+                            )}
                             <Button
                                 onClick={() => {
                                     form.reset()

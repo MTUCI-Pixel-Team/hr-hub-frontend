@@ -1,4 +1,5 @@
 import { Navigate, createBrowserRouter } from 'react-router-dom'
+import { AvitoCallbackPage } from '@/pages/callbacks/avito'
 import { HomePage } from '@/pages/home'
 import { LoginPage } from '@/pages/login'
 import { PeoplePage } from '@/pages/people'
@@ -32,9 +33,8 @@ export const router = createBrowserRouter([
             { path: 'register', element: <RegisterPage /> },
         ],
     },
-    // FIXME: Раскомментировать после тестирования
-    // {
-    //     path: '/callback/avito',
-    //     element: <AvitoCallback />,
-    // },
+    {
+        path: '/callback/avito',
+        element: <AvitoCallbackPage />,
+    },
 ])
