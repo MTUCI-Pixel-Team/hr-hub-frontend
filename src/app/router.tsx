@@ -33,8 +33,9 @@ export const router = createBrowserRouter([
             { path: 'register', element: <RegisterPage /> },
         ],
     },
-    {
-        path: '/callback/avito',
-        element: <AvitoCallback />,
-    },
+    // FIXME: Раскомментировать после тестирования
+    // {
+    //     path: '/callback/avito',
+    //     element: <AvitoCallback />,
+    // },
 ])
