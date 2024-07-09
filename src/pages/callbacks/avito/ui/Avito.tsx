@@ -1,23 +1,20 @@
 import { LoaderCircle } from 'lucide-react'
 import { useEffect } from 'react'
-import { useHrUserInfo } from '@/entities/hrCard'
 import { useAvitoRegistration } from '../api'
 
 export const AvitoCallbackPage = () => {
     const mutation = useAvitoRegistration()
-    const username = useHrUserInfo((state) => state.username)
 
     useEffect(() => {
         const searchParams = new URLSearchParams(window.location.search)
         const code = searchParams.get('code')
 
-        if (code && username) {
+        if (code) {
             mutation.mutate({
                 authorization_code: code,
-                service_username: username,
             })
         }
-    }, [username])
+    }, [])
 
     return (
         <div className='w-screen h-screen flex justify-center items-center'>
