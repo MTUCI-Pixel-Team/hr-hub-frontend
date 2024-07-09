@@ -112,6 +112,7 @@ export const ModalAvito = () => {
                                         },
                                     })
                                 }
+                                disabled={mutationDelete.isPending}
                                 className='mt-4 w-full'
                                 variant='outline'
                                 type='button'>

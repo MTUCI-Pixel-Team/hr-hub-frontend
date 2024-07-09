@@ -276,7 +276,13 @@ export const ModalYandex = () => {
                         <TimeStatusMessages messages={messages} />
 
                         <div className='flex gap-3'>
-                            <Button type='submit'>
+                            <Button
+                                disabled={
+                                    mutationDelete.isPending ||
+                                    mutationUpdate.isPending ||
+                                    mutationCreate.isPending
+                                }
+                                type='submit'>
                                 {services.length > 0
                                     ? 'Изменить'
                                     : 'Подключить'}
@@ -310,6 +316,10 @@ export const ModalYandex = () => {
                                             },
                                         })
                                     }}
+                                    disabled={
+                                        mutationDelete.isPending ||
+                                        mutationUpdate.isPending
+                                    }
                                     type='button'
                                     variant='secondary'>
                                     Удалить сервис

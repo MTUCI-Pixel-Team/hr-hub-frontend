@@ -38,6 +38,10 @@ export const getPlatform = (chatLink: string) => {
                 name: 'Avito',
                 color: 'text-green-400',
             },
+            'vk.com': {
+                name: 'VK',
+                color: 'text-blue-600',
+            },
         }
 
         return domainMap[domain]

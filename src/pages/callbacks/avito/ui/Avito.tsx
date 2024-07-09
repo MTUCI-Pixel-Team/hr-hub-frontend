@@ -17,7 +17,7 @@ export const AvitoCallbackPage = () => {
                 service_username: username,
             })
         }
-    }, [])
+    }, [username])
 
     return (
         <div className='w-screen h-screen flex justify-center items-center'>

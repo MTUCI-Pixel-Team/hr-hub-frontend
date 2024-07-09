@@ -105,9 +105,17 @@ export const ModalTelegram = () => {
                                 вашим клиентам. Ваш клиент должен выбрать ваш
                                 username/id:
                             </p>
-                            <p className='font-medium'>
-                                https://t.me/HRspecialistShopix_bot
-                            </p>
+
+                            <a
+                                href='https://t.me/HRspecialistShopix_bot'
+                                target='_blank'>
+                                <Button
+                                    disabled={mutationConnect.isPending}
+                                    variant={'link'}
+                                    className='font-medium p-0'>
+                                    https://t.me/HRspecialistShopix_bot
+                                </Button>
+                            </a>
 
                             {mutationDelete.isPending ? (
                                 <span className='flex w-full justify-center items-center'>
@@ -137,6 +145,7 @@ export const ModalTelegram = () => {
                                         },
                                     })
                                 }
+                                disabled={mutationDelete.isPending}
                                 className='mt-4 w-full'
                                 variant='outline'
                                 type='button'>

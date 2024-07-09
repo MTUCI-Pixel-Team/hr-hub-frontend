@@ -4,6 +4,7 @@ import { FC, ReactNode, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useHrUserInfo } from '@/entities/hrCard'
+import { setStatusMessage } from '@/shared/lib/utils'
 import { Button } from '@/shared/ui/button'
 import {
     Form,
@@ -16,6 +17,7 @@ import {
 import { Input } from '@/shared/ui/input'
 import { Label } from '@/shared/ui/label'
 import { Skeleton } from '@/shared/ui/skeleton'
+import { TimeStatusMessages } from '@/shared/ui/time-status-messages'
 import { useGetServiceList, useUpdateHrUser } from '../api'
 import { formSchema } from '../models'
 
@@ -35,6 +37,17 @@ export const SettingsForm: FC<SettingsFormProps> = ({
     const username = useHrUserInfo((state) => state.username)
     const email = useHrUserInfo((state) => state.email)
     const setServices = useHrUserInfo((state) => state.setServices)
+    const [messages, setMessages] = useState<{
+        delete: string
+        success: string
+        update: string
+        error: string
+    }>({
+        delete: '',
+        success: '',
+        update: '',
+        error: '',
+    })
 
     const queryServiceList = useGetServiceList()
 
@@ -47,6 +60,7 @@ export const SettingsForm: FC<SettingsFormProps> = ({
             username: username,
             email: email,
             password: '',
+            repeatPassword: '',
         },
         mode: 'onChange',
     })
@@ -65,13 +79,29 @@ export const SettingsForm: FC<SettingsFormProps> = ({
     }, [username, email, form])
 
     const onSubmit = (data: z.infer<typeof formSchema>) => {
+        const { repeatPassword, password } = data
+        if (repeatPassword !== password && (password || repeatPassword)) {
+            form.setError('repeatPassword', {
+                type: 'manual',
+                message: 'Пароли не совпадают',
+            })
+            return
+        }
+
         const mutationData = {
             username: data.username,
             email: data.email,
             ...(data.password && { password: data.password }),
         }
-        console.log(mutationData)
-        mutation.mutate(mutationData)
+        mutation.mutate(mutationData, {
+            onSuccess: () => {
+                setStatusMessage({
+                    message: 'Данные успешно обновлены',
+                    type: 'update',
+                    setMessages,
+                })
+            },
+        })
     }
 
     if (isLoading) {
@@ -169,6 +199,27 @@ export const SettingsForm: FC<SettingsFormProps> = ({
                     }}
                 />
 
+                <FormField
+                    control={form.control}
+                    name='repeatPassword'
+                    render={({ field }) => {
+                        return (
+                            <FormItem>
+                                <FormLabel>Повторите пароль:</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        {...field}
+                                        id='repeatPassword'
+                                        type='password'
+                                        placeholder='********'
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )
+                    }}
+                />
+
                 <div className='grid gap-2'>
                     <Label>Cервисы:</Label>
                     <div className='flex items-center gap-2 flex-wrap'>
@@ -179,15 +230,13 @@ export const SettingsForm: FC<SettingsFormProps> = ({
                     </div>
                 </div>
 
-                {mutation.isPending ? (
+                {mutation.isPending && (
                     <span className='flex justify-center'>
                         <LoaderCircle className='animate-spin' />
                     </span>
-                ) : null}
-                <FormMessage>{mutation.error?.message}</FormMessage>
-                {mutation.isSuccess ? (
-                    <p className='font-light'>Данные успешно обновлены</p>
-                ) : null}
+                )}
+
+                <TimeStatusMessages messages={messages} />
 
                 <div className='flex gap-2 flex-wrap'>
                     <Button
@@ -202,6 +251,8 @@ export const SettingsForm: FC<SettingsFormProps> = ({
                         onClick={(e) => {
                             e.preventDefault()
                             form.reset()
+                            // Почему-то form.reset() не сбрасывает repeatPassword 🤯
+                            form.setValue('repeatPassword', '')
                         }}>
                         Отмена
                     </Button>

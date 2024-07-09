@@ -108,9 +108,15 @@ export const ModalVk = () => {
                                 вашим клиентам. Ваш клиент должен выбрать ваш
                                 username/id:
                             </p>
-                            <p className='font-medium'>
-                                https://vk.com/hrhub1337
-                            </p>
+
+                            <a href='https://vk.com/hrhub1337' target='_blank'>
+                                <Button
+                                    disabled={mutationCreate.isPending}
+                                    variant={'link'}
+                                    className='font-medium p-0'>
+                                    https://vk.com/hrhub1337
+                                </Button>
+                            </a>
 
                             {mutationDelete.isPending ? (
                                 <span className='flex w-full justify-center items-center'>
@@ -140,6 +146,7 @@ export const ModalVk = () => {
                                         },
                                     })
                                 }
+                                disabled={mutationDelete.isPending}
                                 className='mt-2 w-full'
                                 variant='outline'
                                 type='button'>
