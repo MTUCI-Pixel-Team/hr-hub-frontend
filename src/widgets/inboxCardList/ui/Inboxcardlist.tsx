@@ -56,6 +56,9 @@ export const InboxCardList = () => {
 
                                     return (
                                         <DefaultCard
+                                            personalChatLink={
+                                                message.personal_chat_link
+                                            }
                                             inbox={true}
                                             platform={platform}
                                             {...message}

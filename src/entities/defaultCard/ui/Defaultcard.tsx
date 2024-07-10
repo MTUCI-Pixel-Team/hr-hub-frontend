@@ -1,5 +1,6 @@
 import { FC, HTMLAttributes } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar'
+import { Button } from '@/shared/ui/button'
 
 interface DefaultCardProps extends HTMLAttributes<HTMLDivElement> {
     inbox?: boolean | undefined
@@ -14,6 +15,7 @@ interface DefaultCardProps extends HTMLAttributes<HTMLDivElement> {
     profession?: string
     received_at?: string
     unreadMessages?: number
+    personalChatLink?: string
     text?: string
 }
 
@@ -25,6 +27,7 @@ export const DefaultCard: FC<DefaultCardProps> = ({
     profession,
     received_at,
     unreadMessages,
+    personalChatLink,
     text,
     ...props
 }) => {
@@ -43,10 +46,13 @@ export const DefaultCard: FC<DefaultCardProps> = ({
                             <div className='font-medium '>{from_username}</div>
                             {inbox ? (
                                 <>
-                                    <div
-                                        className={`font-small ${platform?.color}`}>
-                                        {platform?.name}
-                                    </div>
+                                    <a target='_blank' href={personalChatLink}>
+                                        <Button
+                                            className={`p-0 m-0 h-auto font-small ${platform?.color}`}
+                                            variant={'link'}>
+                                            {platform?.name}
+                                        </Button>
+                                    </a>
                                 </>
                             ) : null}
                         </div>
