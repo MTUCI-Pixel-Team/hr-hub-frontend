@@ -10,12 +10,15 @@ COPY . .
 
 RUN npm run build
 
-FROM node:20-alpine
+RUN npm prune --production && \
+    npm cache clean --force
 
-RUN npm install -g serve
+FROM nginx:alpine
 
-COPY --from=build /app/dist /app/dist
+RUN rm -rf /var/cache/apk/* /tmp/* /var/tmp/*
 
-EXPOSE 3000
+COPY --from=build /app/dist /usr/share/nginx/html
 
-CMD serve -s dist -l 3000
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
