@@ -65,7 +65,7 @@ jobs:
               with:
                   host: ${{ secrets.SERVER_HOST }}
                   username: ${{ secrets.SERVER_USER }}
-                  password: ${{ secrets.SERVER_PASSWORD }}
+                  key: ${{ secrets.SSH_PRIVATE_KEY }}
                   script: |
                     echo "Starting deployment..."
                     echo "Pulling Docker image..."
@@ -75,10 +75,10 @@ jobs:
                     docker rm /my-node-app || true
                     echo "Starting new container..."
                     docker run -d --name /my-node-app \
-                      -v /var/www/shopix.pixel-team.ru/html:/app/build \
+                      -v /var/www/hrhub.pixel-team.ru/html:/app/build \
                       ${{ secrets.DOCKER_HUB_USERNAME }}//my-node-app:${{ github.sha }}
                     echo "Copying files from container to host..."
-                    docker cp /my-node-app:/app/build/. /var/www/shopix.pixel-team.ru/html/
+                    sudo docker cp /my-node-app:/app/build/. /var/www/hrhub.pixel-team.ru/html/
                     echo "Restarting Nginx..."
                     sudo systemctl restart nginx
                     echo "Pruning Docker system..."
