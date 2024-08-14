@@ -57,7 +57,7 @@ jobs:
                   context: .
                   push: true
                   tags: ${{ secrets.DOCKER_HUB_USERNAME }}/my-node-app:${{ github.sha }}
-                  cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/shopix-frontend:latest
+                  cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}//my-node-app:latest
                   cache-to: type=inline
 
             - name: Deploy to server
@@ -67,8 +67,20 @@ jobs:
                   username: ${{ secrets.SERVER_USER }}
                   password: ${{ secrets.SERVER_PASSWORD }}
                   script: |
-                      docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/my-node-app:${{ github.sha }}
-                      docker stop my-node-app || true
-                      docker rm my-node-app || true
-                      docker run -d --name my-node-app -p 3000:80 --restart unless-stopped ${{ secrets.DOCKER_HUB_USERNAME }}/my-node-app:${{ github.sha }}
-                      docker system prune -af
+                    echo "Starting deployment..."
+                    echo "Pulling Docker image..."
+                    docker pull ${{ secrets.DOCKER_HUB_USERNAME }}//my-node-app:${{ github.sha }}
+                    echo "Stopping and removing old container..."
+                    docker stop /my-node-app || true
+                    docker rm /my-node-app || true
+                    echo "Starting new container..."
+                    docker run -d --name /my-node-app \
+                      -v /var/www/shopix.pixel-team.ru/html:/app/build \
+                      ${{ secrets.DOCKER_HUB_USERNAME }}//my-node-app:${{ github.sha }}
+                    echo "Copying files from container to host..."
+                    docker cp /my-node-app:/app/build/. /var/www/shopix.pixel-team.ru/html/
+                    echo "Restarting Nginx..."
+                    sudo systemctl restart nginx
+                    echo "Pruning Docker system..."
+                    docker system prune -af
+                    echo "Deployment completed."
