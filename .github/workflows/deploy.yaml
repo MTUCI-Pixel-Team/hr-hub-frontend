@@ -57,7 +57,7 @@ jobs:
                   context: .
                   push: true
                   tags: ${{ secrets.DOCKER_HUB_USERNAME }}/my-node-app:${{ github.sha }}
-                  cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}//my-node-app:latest
+                  cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/my-node-app:latest
                   cache-to: type=inline
 
             - name: Deploy to server
@@ -65,22 +65,22 @@ jobs:
               with:
                   host: ${{ secrets.SERVER_HOST }}
                   username: ${{ secrets.SERVER_USER }}
-                  key: ${{ secrets.SSH_PRIVATE_KEY }}
+                  password: ${{ secrets.SERVER_PASSWORD }}
                   script: |
                     echo "Starting deployment..."
                     echo "Pulling Docker image..."
-                    docker pull ${{ secrets.DOCKER_HUB_USERNAME }}//my-node-app:${{ github.sha }}
+                    docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/my-node-app:${{ github.sha }}
                     echo "Stopping and removing old container..."
-                    docker stop /my-node-app || true
-                    docker rm /my-node-app || true
+                    docker stop my-node-app || true
+                    docker rm my-node-app || true
                     echo "Starting new container..."
-                    docker run -d --name /my-node-app \
+                    docker run -d --name my-node-app \
                       -v /var/www/hrhub.pixel-team.ru/html:/app/build \
-                      ${{ secrets.DOCKER_HUB_USERNAME }}//my-node-app:${{ github.sha }}
+                      ${{ secrets.DOCKER_HUB_USERNAME }}/my-node-app:${{ github.sha }}
                     echo "Copying files from container to host..."
                     sudo docker cp /my-node-app:/app/build/. /var/www/hrhub.pixel-team.ru/html/
                     echo "Restarting Nginx..."
                     sudo systemctl restart nginx
                     echo "Pruning Docker system..."
-                    docker system prune -af
+                    sudo docker system prune -af
                     echo "Deployment completed."
