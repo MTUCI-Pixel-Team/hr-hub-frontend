@@ -78,7 +78,7 @@ jobs:
                       -v /var/www/hrhub.pixel-team.ru/html:/app/build \
                       ${{ secrets.DOCKER_HUB_USERNAME }}/my-node-app:${{ github.sha }}
                     echo "Copying files from container to host..."
-                    sudo -S docker cp /my-node-app:/app/build/. /var/www/hrhub.pixel-team.ru/html/
+                    sudo -S docker cp my-node-app:/app/build/. /var/www/hrhub.pixel-team.ru/html/
                     echo "Restarting Nginx..."
                     sudo systemctl restart nginx
                     echo "Pruning Docker system..."
