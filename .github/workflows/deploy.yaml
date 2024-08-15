@@ -42,7 +42,7 @@ jobs:
         password: ${{ secrets.SERVER_PASSWORD }}
         script: |
           cd /home/deploy/projects
-          docker-compose stop hrhub
-          docker-compose rm -f hrhub
-          docker-compose up -d --force-recreate hrhub
+          docker-compose down
+          docker-compose pull hrhub
+          docker-compose up -d
           docker-compose up -d --force-recreate hrhub
