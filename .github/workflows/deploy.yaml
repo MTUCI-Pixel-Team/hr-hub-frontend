@@ -1,86 +1,44 @@
-name: CI/CD
+name: Deploy HRHub
 
 on:
-    push:
-        branches: [main]
-    pull_request:
-        branches: [main]
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
-    build-and-deploy:
-        runs-on: ubuntu-latest
+  deploy:
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v3
+    steps:
+    - name: Checkout code
+    - uses: actions/checkout@v3
 
-            - name: Set up Node.js
-              uses: actions/setup-node@v3
-              with:
-                  node-version: '20'
-                  cache: 'npm'
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
 
-            - name: Install dependencies
-              run: npm ci
+    - name: Login to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-            - name: Build
-              run: npm run build
-              env:
-                  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        push: true
+        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/my-node-app:${{ github.sha }}
+        cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/my-node-app:latest
+        cache-to: type=inline
 
-            - name: Create Sentry release
-              run: |
-                  npm install -g @sentry/cli
-                  sentry-cli releases new ${{ github.sha }}
-                  sentry-cli releases files ${{ github.sha }} upload-sourcemaps ./dist
-                  sentry-cli releases finalize ${{ github.sha }}
-              env:
-                  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-                  SENTRY_ORG: mtuci-v2
-                  SENTRY_PROJECT: hrhub
-
-            - name: Clean up node_modules
-              run: npm prune --production
-
-            - name: Set up Docker Buildx
-              uses: docker/setup-buildx-action@v2
-
-            - name: Login to DockerHub
-              uses: docker/login-action@v2
-              with:
-                  username: ${{ secrets.DOCKER_HUB_USERNAME }}
-                  password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-
-            - name: Build and push Docker image
-              uses: docker/build-push-action@v4
-              with:
-                  context: .
-                  push: true
-                  tags: ${{ secrets.DOCKER_HUB_USERNAME }}/my-node-app:${{ github.sha }}
-                  cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/my-node-app:latest
-                  cache-to: type=inline
-
-            - name: Deploy to server
-              uses: appleboy/ssh-action@master
-              with:
-                  host: ${{ secrets.SERVER_HOST }}
-                  username: ${{ secrets.SERVER_USER }}
-                  password: ${{ secrets.SERVER_PASSWORD }}
-                  script: |
-                    echo "Starting deployment..."
-                    echo "Pulling Docker image..."
-                    docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/my-node-app:${{ github.sha }}
-                    echo "Stopping and removing old container..."
-                    docker stop my-node-app || true
-                    docker rm my-node-app || true
-                    echo "Starting new container..."
-                    docker run -d --name my-node-app \
-                      -v /var/www/hrhub.pixel-team.ru/html:/app/build \
-                      ${{ secrets.DOCKER_HUB_USERNAME }}/my-node-app:${{ github.sha }}
-                    echo "Copying files from container to host..."
-                    docker cp my-node-app:/app/build/. /var/www/hrhub.pixel-team.ru/html/
-                    echo "Restarting Nginx..."
-                    sudo systemctl restart nginx
-                    echo "Pruning Docker system..."
-                    docker system prune -af
-                    echo "Deployment completed."
+    - name: Deploy to Server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USER }}
+        password: ${{ secrets.SERVER_PASSWORD }}
+        script: |
+          cd /home/deploy/projects
+          docker-compose pull hrhub
+          docker-compose up -d hrhub
