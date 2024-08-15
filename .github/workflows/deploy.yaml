@@ -45,4 +45,3 @@ jobs:
           docker-compose down
           docker-compose pull hrhub
           docker-compose up -d
-          docker-compose up -d --force-recreate hrhub
