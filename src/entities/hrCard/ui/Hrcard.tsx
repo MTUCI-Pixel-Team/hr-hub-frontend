@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar'
+import { Avatar, AvatarFallback } from '@/shared/ui/avatar'
 import { Skeleton } from '@/shared/ui/skeleton'
 import { useGetInfoHrUser } from '../api'
 import { useHrUserInfo } from '../models'
@@ -43,9 +43,9 @@ export const HrCard = ({
                 ) : (
                     <>
                         <Avatar className='w-10 h-10 border'>
-                            <AvatarImage src='/placeholder-user.jpg' />
+                            {/* <AvatarImage src='/placeholder-user.jpg' /> */}
                             <AvatarFallback>
-                                {query.data?.username.toUpperCase().slice(0, 2)}
+                                {query.data?.username.toUpperCase().slice(0, 1)}
                             </AvatarFallback>
                         </Avatar>
                         <div className='w-full overflow-hidden'>

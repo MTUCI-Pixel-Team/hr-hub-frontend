@@ -1,0 +1,27 @@
+// vite.config.ts
+import { sentryVitePlugin } from "file:///C:/Users/monst/Desktop/projects/hr-helper/node_modules/@sentry/vite-plugin/dist/esm/index.mjs";
+import path from "path";
+import react from "file:///C:/Users/monst/Desktop/projects/hr-helper/node_modules/@vitejs/plugin-react/dist/index.mjs";
+import { defineConfig } from "file:///C:/Users/monst/Desktop/projects/hr-helper/node_modules/vite/dist/node/index.js";
+var __vite_injected_original_dirname = "C:\\Users\\monst\\Desktop\\projects\\hr-helper";
+var vite_config_default = defineConfig({
+  plugins: [react(), sentryVitePlugin({
+    org: "mtuci-v2",
+    project: "hrhub"
+  })],
+  resolve: {
+    alias: {
+      "@": path.resolve(__vite_injected_original_dirname, "./src")
+    }
+  },
+  server: {
+    host: true
+  },
+  build: {
+    sourcemap: true
+  }
+});
+export {
+  vite_config_default as default
+};
+//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsidml0ZS5jb25maWcudHMiXSwKICAic291cmNlc0NvbnRlbnQiOiBbImNvbnN0IF9fdml0ZV9pbmplY3RlZF9vcmlnaW5hbF9kaXJuYW1lID0gXCJDOlxcXFxVc2Vyc1xcXFxtb25zdFxcXFxEZXNrdG9wXFxcXHByb2plY3RzXFxcXGhyLWhlbHBlclwiO2NvbnN0IF9fdml0ZV9pbmplY3RlZF9vcmlnaW5hbF9maWxlbmFtZSA9IFwiQzpcXFxcVXNlcnNcXFxcbW9uc3RcXFxcRGVza3RvcFxcXFxwcm9qZWN0c1xcXFxoci1oZWxwZXJcXFxcdml0ZS5jb25maWcudHNcIjtjb25zdCBfX3ZpdGVfaW5qZWN0ZWRfb3JpZ2luYWxfaW1wb3J0X21ldGFfdXJsID0gXCJmaWxlOi8vL0M6L1VzZXJzL21vbnN0L0Rlc2t0b3AvcHJvamVjdHMvaHItaGVscGVyL3ZpdGUuY29uZmlnLnRzXCI7aW1wb3J0IHsgc2VudHJ5Vml0ZVBsdWdpbiB9IGZyb20gXCJAc2VudHJ5L3ZpdGUtcGx1Z2luXCI7XHJcbmltcG9ydCBwYXRoIGZyb20gJ3BhdGgnXHJcbmltcG9ydCByZWFjdCBmcm9tICdAdml0ZWpzL3BsdWdpbi1yZWFjdCdcclxuaW1wb3J0IHsgZGVmaW5lQ29uZmlnIH0gZnJvbSAndml0ZSdcclxuXHJcbmV4cG9ydCBkZWZhdWx0IGRlZmluZUNvbmZpZyh7XHJcbiAgICBwbHVnaW5zOiBbcmVhY3QoKSwgc2VudHJ5Vml0ZVBsdWdpbih7XHJcbiAgICAgICAgb3JnOiBcIm10dWNpLXYyXCIsXHJcbiAgICAgICAgcHJvamVjdDogXCJocmh1YlwiXHJcbiAgICB9KV0sXHJcblxyXG4gICAgcmVzb2x2ZToge1xyXG4gICAgICAgIGFsaWFzOiB7XHJcbiAgICAgICAgICAgICdAJzogcGF0aC5yZXNvbHZlKF9fZGlybmFtZSwgJy4vc3JjJyksXHJcbiAgICAgICAgfSxcclxuICAgIH0sXHJcblxyXG4gICAgc2VydmVyOiB7XHJcbiAgICAgICAgaG9zdDogdHJ1ZSxcclxuICAgIH0sXHJcblxyXG4gICAgYnVpbGQ6IHtcclxuICAgICAgICBzb3VyY2VtYXA6IHRydWVcclxuICAgIH1cclxufSkiXSwKICAibWFwcGluZ3MiOiAiO0FBQXlULFNBQVMsd0JBQXdCO0FBQzFWLE9BQU8sVUFBVTtBQUNqQixPQUFPLFdBQVc7QUFDbEIsU0FBUyxvQkFBb0I7QUFIN0IsSUFBTSxtQ0FBbUM7QUFLekMsSUFBTyxzQkFBUSxhQUFhO0FBQUEsRUFDeEIsU0FBUyxDQUFDLE1BQU0sR0FBRyxpQkFBaUI7QUFBQSxJQUNoQyxLQUFLO0FBQUEsSUFDTCxTQUFTO0FBQUEsRUFDYixDQUFDLENBQUM7QUFBQSxFQUVGLFNBQVM7QUFBQSxJQUNMLE9BQU87QUFBQSxNQUNILEtBQUssS0FBSyxRQUFRLGtDQUFXLE9BQU87QUFBQSxJQUN4QztBQUFBLEVBQ0o7QUFBQSxFQUVBLFFBQVE7QUFBQSxJQUNKLE1BQU07QUFBQSxFQUNWO0FBQUEsRUFFQSxPQUFPO0FBQUEsSUFDSCxXQUFXO0FBQUEsRUFDZjtBQUNKLENBQUM7IiwKICAibmFtZXMiOiBbXQp9Cg==

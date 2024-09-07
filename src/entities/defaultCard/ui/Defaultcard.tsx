@@ -1,10 +1,12 @@
-import { FC, HTMLAttributes } from 'react'
-import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar'
+import { FC } from 'react'
+import { cn } from '@/shared/lib/utils'
+import { Avatar, AvatarFallback } from '@/shared/ui/avatar'
 import { Button } from '@/shared/ui/button'
 
-interface DefaultCardProps extends HTMLAttributes<HTMLDivElement> {
+interface DefaultCardProps {
     inbox?: boolean | undefined
     // name: string
+    className?: string
     from_username?: string
     platform?:
         | {
@@ -13,6 +15,8 @@ interface DefaultCardProps extends HTMLAttributes<HTMLDivElement> {
           }
         | undefined
     profession?: string
+    groupName?: string
+    userId?: number
     received_at?: string
     unreadMessages?: number
     personalChatLink?: string
@@ -21,29 +25,32 @@ interface DefaultCardProps extends HTMLAttributes<HTMLDivElement> {
 
 export const DefaultCard: FC<DefaultCardProps> = ({
     // name,
-    from_username,
+    className,
     platform,
     inbox,
     profession,
     received_at,
     unreadMessages,
     personalChatLink,
+    groupName,
     text,
     ...props
 }) => {
     return (
-        <div className='bg-card rounded-md shadow-sm relative' {...props}>
-            <div className='flex items-start gap-4 p-4'>
+        <div
+            className={cn('bg-card rounded-md  relative', className)}
+            {...props}>
+            <div className='flex items-center gap-4 p-4'>
                 <Avatar className='w-10 h-10 border'>
-                    <AvatarImage src='/placeholder-user.jpg' />
-                    <AvatarFallback>
-                        {from_username?.slice(0, 2)}
+                    {/* <AvatarImage src='/placeholder-user.jpg' /> */}
+                    <AvatarFallback className='text-gray-900'>
+                        {groupName?.slice(0, 1).toUpperCase()}
                     </AvatarFallback>
                 </Avatar>
                 <div className='flex-1 w-full'>
                     <div className='flex items-center flex-wrap justify-between'>
                         <div className='flex gap-2 flex-wrap '>
-                            <div className='font-medium '>{from_username}</div>
+                            <div className='font-medium '>{groupName}</div>
                             {inbox ? (
                                 <>
                                     <a target='_blank' href={personalChatLink}>
@@ -66,7 +73,9 @@ export const DefaultCard: FC<DefaultCardProps> = ({
                     <p className='text-muted-foreground'>
                         {inbox
                             ? text
-                            : `${unreadMessages} непрочитанных сообщений`}
+                            : unreadMessages
+                            ? `${unreadMessages} непрочитанных сообщений`
+                            : 'Нет новых сообщений'}
                     </p>
                 </div>
             </div>

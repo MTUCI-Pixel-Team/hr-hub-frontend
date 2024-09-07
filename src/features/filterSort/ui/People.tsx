@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import { CircleX, UserPlus } from 'lucide-react'
 import { useState } from 'react'
-import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar'
+import { Avatar, AvatarFallback } from '@/shared/ui/avatar'
 import { Button } from '@/shared/ui/button'
 import {
     DropdownMenuLabel,
@@ -82,7 +82,7 @@ export const People = () => {
                                             <CircleX className='h-4 w-4' />
                                         )}
                                         <Avatar className='w-10 h-10 border'>
-                                            <AvatarImage src={person.avatar} />
+                                            {/* <AvatarImage src={person.avatar} /> */}
                                             <AvatarFallback>
                                                 {person.name[0]}
                                             </AvatarFallback>

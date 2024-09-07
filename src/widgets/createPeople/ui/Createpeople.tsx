@@ -1,8 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Plus } from 'lucide-react'
-import { ReactNode, useState } from 'react'
+import { LoaderCircle } from 'lucide-react'
+import { FC, ReactNode, useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { ICustomUser } from '@/entities/customUsers'
+import { setStatusMessage } from '@/shared/lib/utils'
 import { Button } from '@/shared/ui/button'
 import {
     Dialog,
@@ -21,10 +23,47 @@ import {
     FormMessage,
 } from '@/shared/ui/form'
 import { Input } from '@/shared/ui/input'
+import { TimeStatusMessages } from '@/shared/ui/time-status-messages'
+import {
+    useCreateCustomUser,
+    useDeleteCustomUser,
+    useUpdateCustomUser,
+} from '../api'
 import { formSchema } from '../models'
 
-export const CreatePeople = ({ renderFilter }: { renderFilter: ReactNode }) => {
-    const [modalOpen, setModalOpen] = useState<boolean>(false)
+interface CreatePeopleProps {
+    isOpen: boolean
+    onOpenChange: () => void
+    isUpdate?: boolean
+    renderFilter: ReactNode
+    renderButton: ReactNode
+    data?: ICustomUser
+}
+
+export const CreatePeople: FC<CreatePeopleProps> = ({
+    renderFilter,
+    isOpen,
+    isUpdate = false,
+    onOpenChange,
+    renderButton,
+    data,
+}) => {
+    // const [modalOpen, setModalOpen] = useState<boolean>(false)
+    const mutationUpdate = useUpdateCustomUser(data?.id)
+    const mutationDelete = useDeleteCustomUser(data?.id)
+    const mutationCreate = useCreateCustomUser()
+
+    const [messages, setMessages] = useState<{
+        delete: string
+        success: string
+        update: string
+        error: string
+    }>({
+        delete: '',
+        success: '',
+        update: '',
+        error: '',
+    })
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -36,25 +75,96 @@ export const CreatePeople = ({ renderFilter }: { renderFilter: ReactNode }) => {
         mode: 'onChange',
     })
 
+    useEffect(() => {
+        if (isUpdate && data) {
+            console.log('entered')
+            form.reset({
+                name: data.group_name,
+                profession: data.profession,
+                username: data.members
+                    .filter((item) => item.added)
+                    .map((member) => {
+                        return {
+                            id: member.id,
+                            service_name: member.service_name,
+                            username_from_message:
+                                member.user_name_from_message,
+                        }
+                    }),
+            })
+        }
+    }, [data, isUpdate, form])
+
+    const onDelete = () => {
+        mutationDelete.mutate(undefined, {
+            onSuccess: () => {
+                setStatusMessage({
+                    message: 'Пользователь успешно удален',
+                    setMessages,
+                    type: 'delete',
+                })
+            },
+            onError: (err) => {
+                setStatusMessage({
+                    message: err.message,
+                    setMessages,
+                    type: 'error',
+                })
+            },
+        })
+    }
+
     const onSubmit = (data: z.infer<typeof formSchema>) => {
+        if (isUpdate) {
+            mutationUpdate.mutate(data, {
+                onSuccess: () => {
+                    setStatusMessage({
+                        message: 'Пользователь успешно обновлен',
+                        setMessages,
+                        type: 'success',
+                    })
+                },
+                onError: (err) => {
+                    setStatusMessage({
+                        message: err.message,
+                        setMessages,
+                        type: 'error',
+                    })
+                },
+            })
+        } else {
+            mutationCreate.mutate(data, {
+                onSuccess: () => {
+                    setStatusMessage({
+                        message: 'Пользователь успешно создан',
+                        setMessages,
+                        type: 'success',
+                    })
+                },
+                onError: (err) => {
+                    setStatusMessage({
+                        message: err.message,
+                        setMessages,
+                        type: 'error',
+                    })
+                },
+            })
+        }
         console.log(data)
     }
 
     console.log(form.getValues())
 
     return (
-        <Dialog open={modalOpen} onOpenChange={() => setModalOpen(!modalOpen)}>
-            <DialogTrigger>
-                <Button
-                    variant='outline'
-                    size={'sm'}
-                    className='shrink-0 w-10 h-10 transition-all duration-300 hover:scale-[102%]'>
-                    <Plus />
-                </Button>
-            </DialogTrigger>
+        <Dialog open={isOpen} onOpenChange={onOpenChange}>
+            <DialogTrigger>{renderButton}</DialogTrigger>
             <DialogContent className='overflow-auto rounded-2xl'>
                 <DialogHeader className='overflow-auto'>
-                    <DialogTitle>Создание нового пользователя</DialogTitle>
+                    <DialogTitle>
+                        {!isUpdate
+                            ? 'Создание нового пользователя'
+                            : 'Обновление пользователя'}
+                    </DialogTitle>
                     <DialogDescription>
                         Введите данные нового пользователя и добавьте его
                         никнеймы
@@ -114,11 +224,20 @@ export const CreatePeople = ({ renderFilter }: { renderFilter: ReactNode }) => {
 
                             {renderFilter}
 
+                            {mutationUpdate.isPending ||
+                                (mutationCreate.isPending && (
+                                    <div className='flex justify-center'>
+                                        <LoaderCircle className='animate-spin' />
+                                    </div>
+                                ))}
+
+                            <TimeStatusMessages messages={messages} />
+
                             <div className='flex gap-3'>
                                 <Button
                                     type='submit'
-                                    className='w-32 h-full transition-all duration-300 hover:scale-[102%]'>
-                                    Создать
+                                    className='w-32  transition-all duration-300 hover:scale-[102%]'>
+                                    {isUpdate ? 'Обновить' : 'Создать'}
                                 </Button>
                                 <Button
                                     onClick={(e) => {
@@ -127,9 +246,18 @@ export const CreatePeople = ({ renderFilter }: { renderFilter: ReactNode }) => {
                                     }}
                                     type='button'
                                     variant='secondary'
-                                    className='h-full transition-all duration-300 hover:scale-[105%]'>
+                                    className='transition-all duration-300 hover:scale-[105%]'>
                                     Сбросить
                                 </Button>
+                                {isUpdate && (
+                                    <Button
+                                        onClick={onDelete}
+                                        type='button'
+                                        className='transition-all duration-300 hover:scale-[105%]'
+                                        variant={'destructive'}>
+                                        Удалить
+                                    </Button>
+                                )}
                             </div>
                         </form>
                     </FormProvider>

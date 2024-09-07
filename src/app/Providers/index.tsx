@@ -6,7 +6,13 @@ import { ErrorBoundaryElement } from '@/shared/ui/error-boundary'
 import { router } from '../router'
 
 export const Providers = () => {
-    const queryClient = new QueryClient()
+    const queryClient = new QueryClient({
+        defaultOptions: {
+            queries: {
+                refetchOnWindowFocus: false,
+            },
+        },
+    })
 
     return (
         <ErrorBoundary

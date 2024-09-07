@@ -9,7 +9,11 @@ export const formSchema = z.object({
     }),
     username: z
         .array(
-            z.object({ id: z.string(), name: z.string(), avatar: z.string() })
+            z.object({
+                id: z.number(),
+                service_name: z.string(),
+                username_from_message: z.string(),
+            })
         )
         .refine((value) => value.length > 0, {
             message: 'Добавьте хотя бы один никнейм',

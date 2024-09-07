@@ -1,12 +1,12 @@
-import { FilteringByPeople } from '@/widgets/filteringByPeople'
 import { Header } from '@/widgets/header'
 import { InboxCardList } from '@/widgets/inboxCardList'
 import { useLayoutStore } from '@/widgets/layouts'
-import { Filter, Sort } from '@/features/filterSort'
+import { Sort } from '@/features/filterSort'
 import { Search } from '@/features/search'
 
 export const HomePage = () => {
     const setMenu = useLayoutStore((state) => state.setMenu)
+    // const { data, isError, isLoading, error } = useGetUniqueUsers()
 
     return (
         <>
@@ -16,7 +16,16 @@ export const HomePage = () => {
                     <>
                         <Search placeholder='Поиск людей...' />
                         <Sort />
-                        <Filter render={<FilteringByPeople />} />
+                        {/* <Filter
+                            render={
+                                <FilteringByPeople
+                                    data={data}
+                                    isLoading={isLoading}
+                                    isError={isError}
+                                    error={error}
+                                />
+                            }
+                        /> */}
                     </>
                 }
             />
