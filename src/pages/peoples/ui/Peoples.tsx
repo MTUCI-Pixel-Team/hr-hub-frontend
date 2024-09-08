@@ -67,11 +67,24 @@ export const PeoplesPage = () => {
     if (isErrorCustomUsers) {
         return <div className='text-red-500'>Ошибка</div>
     }
-    if (dataCustomUsers && dataCustomUsers?.pages[0].results.length <= 0) {
-        return <Empty />
-    }
 
-    console.log(data)
+    const errorElement = !isFetchingCustomUsers &&
+        dataCustomUsers &&
+        dataCustomUsers!.pages?.length > 0 &&
+        Array.isArray(dataCustomUsers.pages[0]) &&
+        dataCustomUsers!.pages[0]?.length <= 0 && (
+            <Empty>Нет пользователей</Empty>
+        )
+
+    // if (
+    //     !isFetchingCustomUsers &&
+    //     dataCustomUsers &&
+    //     dataCustomUsers?.pages[0]?.length <= 0
+    // ) {
+    //     return <Empty>Нет пользователей</Empty>
+    // }
+
+    // console.log(data, dataCustomUsers, dataCustomUsers?.pages[0]?.length)
     return (
         <>
             <Header
@@ -147,12 +160,22 @@ export const PeoplesPage = () => {
                         </div>
                     )}
                 </InfiniteScroll> */}
+                {isErrorCustomUsers && (
+                    <div className='text-red-500'>{error?.message}</div>
+                )}
+
+                {errorElement && (
+                    <div className='h-[80vh] flex justify-center items-center'>
+                        {errorElement}
+                    </div>
+                )}
+
                 <div>
                     {!isFetchingCustomUsers &&
                         dataCustomUsers &&
-                        dataCustomUsers.pages.length > 0 &&
-                        dataCustomUsers.pages.map((page) =>
-                            page.results.map((user) => (
+                        dataCustomUsers?.pages?.length > 0 &&
+                        dataCustomUsers?.pages?.map((page) =>
+                            page?.results?.map((user) => (
                                 <Link key={user.id} to={`/peoples/${user.id}`}>
                                     <DefaultCard
                                         className='rounded-2xl transition-all duration-300  hover:bg-primary-foreground'
