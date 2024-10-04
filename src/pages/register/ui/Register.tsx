@@ -168,6 +168,16 @@ export const RegisterPage = () => {
                             className='w-full transition-all duration-300 hover:scale-[102%]'>
                             Зарегистрироваться
                         </Button>
+                        <Button
+                            size={'sm'}
+                            className='h-0.5 w-[100%] text-xs justify-center items-center'
+                            variant={'link'}>
+                            <a
+                                href='https://github.com/MTUCI-Pixel-Team'
+                                target='_blank'>
+                                Made by Pixel Team
+                            </a>
+                        </Button>
                     </form>
                 </Form>
             </div>
