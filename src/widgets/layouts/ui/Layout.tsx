@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query'
 import { XCircle } from 'lucide-react'
 import { Link, Outlet } from 'react-router-dom'
 import { HrCard } from '@/entities/hrCard'
@@ -9,6 +10,7 @@ import { Navigation } from './Navigation'
 import { Websocket } from './Websocket'
 
 export const Layout = () => {
+    const queryClient = useQueryClient()
     const menu = useLayoutStore((state) => state.menu)
     const setMenu = useLayoutStore((state) => state.setMenu)
 
@@ -44,6 +46,7 @@ export const Layout = () => {
                             onClick={() => {
                                 setMenu(false)
                                 removeTokens()
+                                queryClient.invalidateQueries()
                             }}>
                             <Button
                                 variant='outline'
@@ -52,8 +55,22 @@ export const Layout = () => {
                             </Button>
                         </Link>
                     </div>
+                    <Button
+                        size={'sm'}
+                        className='h-0.5 text-xs justify-center items-center'
+                        variant={'link'}>
+                        <a
+                            href='https://github.com/MTUCI-Pixel-Team'
+                            target='_blank'>
+                            Made by Pixel Team
+                        </a>
+                    </Button>
                 </div>
-                <div className='flex-1 flex flex-col h-screen'>
+                <div
+                    className='flex-1 flex flex-col h-screen'
+                    style={{
+                        wordBreak: 'break-word',
+                    }}>
                     <Outlet />
                 </div>
             </div>

@@ -1,4 +1,4 @@
-import { Plus } from 'lucide-react'
+import { Plus, PlusIcon } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useIntersection } from 'react-use'
@@ -73,7 +73,15 @@ export const PeoplesPage = () => {
         dataCustomUsers!.pages?.length > 0 &&
         Array.isArray(dataCustomUsers.pages[0]) &&
         dataCustomUsers!.pages[0]?.length <= 0 && (
-            <Empty>Нет пользователей</Empty>
+            <Empty>
+                Нет пользователей{' '}
+                <Button
+                    size={'sm'}
+                    onClick={() => setModalOpen(!modalOpen)}
+                    className='shrink-0 w-10 h-10 transition-all duration-300 hover:scale-[102%] items-center justify-center'>
+                    <Plus />
+                </Button>
+            </Empty>
         )
 
     // if (

@@ -175,7 +175,7 @@ export const CreatePeople: FC<CreatePeopleProps> = ({
                     <FormProvider {...form}>
                         <form
                             onSubmit={form.handleSubmit(onSubmit)}
-                            className='flex flex-col gap-4'>
+                            className='flex flex-col gap-4 w-[100%]'>
                             <FormField
                                 control={form.control}
                                 name='name'

@@ -126,6 +126,10 @@ export const FilteringByPeople: FC<FilteringByPeopleProps> = ({
                                     </div>
                                 )}
 
+                                {eachData && eachData?.length <= 0 && (
+                                    <div>Пока у вас нет пользователей</div>
+                                )}
+
                                 {eachData &&
                                     eachData
                                         .filter(

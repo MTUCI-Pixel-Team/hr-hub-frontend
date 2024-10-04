@@ -23,7 +23,7 @@ export const Navigation = () => {
                             )}>
                             <InboxIcon className='w-4 h-4' />
                             Входящие
-                            <div
+                            {/* <div
                                 className={classNames(
                                     'ml-auto flex h-5 w-5 items-center  justify-center rounded-full bg-primary text-xs font-medium group-hover:bg-black group-hover:text-white transition-colors',
                                     {
@@ -32,7 +32,7 @@ export const Navigation = () => {
                                     }
                                 )}>
                                 3
-                            </div>
+                            </div> */}
                         </Button>
                     )
                 }}

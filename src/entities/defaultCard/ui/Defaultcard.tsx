@@ -38,7 +38,7 @@ export const DefaultCard: FC<DefaultCardProps> = ({
 }) => {
     return (
         <div
-            className={cn('bg-card rounded-md  relative', className)}
+            className={cn('bg-card rounded-md relative', className)}
             {...props}>
             <div className='flex items-center gap-4 p-4'>
                 <Avatar className='w-10 h-10 border'>
