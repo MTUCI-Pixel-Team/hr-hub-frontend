@@ -135,14 +135,14 @@ export const FilteringByPeople: FC<FilteringByPeopleProps> = ({
                                         .filter(
                                             (item) =>
                                                 item.username_from_message
-                                                    .toLowerCase()
-                                                    .includes(
-                                                        search.toLowerCase()
+                                                    ?.toLowerCase()
+                                                    ?.includes(
+                                                        search?.toLowerCase()
                                                     ) ||
                                                 item.service_name
                                                     .toLowerCase()
-                                                    .includes(
-                                                        search.toLowerCase()
+                                                    ?.includes(
+                                                        search?.toLowerCase()
                                                     )
                                         )
                                         .map((person: IUniqueUsers) => (

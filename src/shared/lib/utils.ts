@@ -68,7 +68,7 @@ export const getPlatform = (entity: string, mode: Mode = 'url') => {
             },
         }
 
-        return domainMap[domain.toLowerCase()]
+        return domainMap[domain?.toLowerCase()]
     }
 
     if (mode === 'url') {
