@@ -1,11 +1,52 @@
-# React + TypeScript + Vite
+# HR Hub
+![image](https://github.com/user-attachments/assets/d23908ec-f042-4baa-9fd2-d8803255f15a)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**HR Hub** — это веб-приложение, которое помогает HR-специалистам отслеживать сообщения со всех популярных мессенджеров в одном месте. Новые сообщения автоматически парсятся и отображаются на сайте, а функционал управления пользователями позволяет структурировать информацию по отдельным кандидатам и их активности в разных сервисах.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Функционал
+
+- **Отслеживание сообщений**: Получение сообщений с различных мессенджеров в реальном времени.
+- **Структурирование пользователей**: Добавление и управление пользователями, связанных с конкретными сервисами.
+
+---
+
+## Технологии
+
+Проект построен с использованием следующих технологий:
+
+- **Архитектура**: FSD (Feature-Sliced Design) для структурирования кода.
+- **Библиотеки**:
+  - **React**: Основной фронтенд-фреймворк.
+  - **TypeScript**: Для типизации и повышения надежности кода.
+  - **Zustand**: Легковесное управление состоянием.
+  - **TanStack Query**: Работа с серверными данными (fetching, caching, синхронизация).
+  - **shadcn**: UI-компоненты, базирующиеся на Radix UI и Tailwind CSS.
+  - **React Hook Form**: Библиотека для работы с формами в React-приложениях, которая позволяет упростить валидацию и управление состоянием форм.
+- **CI/CD**:
+  - **GitHub Actions**: Автоматизация тестирования и деплоя.
+- **Контейнеризация**:
+  - **Docker**: Упаковка приложения для простого развертывания.
+
+---
+
+## Установка и запуск
+
+### 1. Клонируйте репозиторий
+
+```
+git clone https://github.com/MTUCI-Pixel-Team/hr-hub-frontend.git
+cd hr-hub-frontend
+```
+### 2. Установите зависимости
+```
+npm install
+```
+### 3. Запуск приложения
+```
+npm run dev
+```
 
 ## Git flow
 
