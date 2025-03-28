@@ -52,6 +52,6 @@ jobs:
               ports:
                 - "7070:80"
           EOF
-          docker-compose down
-          docker-compose pull
-          docker-compose up -d
+          docker compose down
+          docker compose pull
+          docker compose up -d
